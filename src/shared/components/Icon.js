@@ -15,6 +15,9 @@ import {
   faSeedling,
   faMugHot,
   faStar,
+  faEdit,
+  faTimes,
+  faStarOfLife,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -29,16 +32,18 @@ library.add(
   faIceCream,
   faSeedling,
   faMugHot,
-  faStar
+  faStar,
+  faEdit,
+  faTimes,
+  faStarOfLife
 );
 
-const IconWrapper = styled.div`
-  color: ${({ theme }) => theme.colors.gray};
-  font-size: ${({ size }) => (size === "large" ? "36px" : "16px")};
+const IconWrapper = styled.span`
+  /* color: ${({ theme }) => theme.colors.gray}; */
+  /* font-size: ${({ size }) => (size === "large" ? "36px" : "16px")}; */
 `;
 
 const Icon = ({ name, ...rest }) => {
-  console.log(rest);
   return (
     <IconWrapper {...rest}>
       <FontAwesomeIcon icon={name} />

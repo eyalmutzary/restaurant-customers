@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Icon } from "./index";
+import BaseButton from "./Button";
+import Icon from "./Icon";
 
 const CardWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.silver};
@@ -28,6 +29,10 @@ const Title = styled.h4`
   font-size: 22px;
   text-align: center;
   margin: 10px 0px 10px 0px;
+`;
+
+const Button = styled(BaseButton)`
+  width: 60px;
 `;
 
 const Card = ({ image, title }) => (

@@ -17,8 +17,17 @@ const SidebarWarpper = styled.div`
 const Wrapper = styled.div``;
 
 const Icon = styled(BaseIcon).attrs({ size: "large" })`
+  display: block;
   text-align: center;
+  font-size: 36px;
   margin: 10px 0px 10px 0px;
+  color: ${({ theme }) => theme.colors.gray};
+
+  &:hover {
+    transition: 0.4s;
+    color: ${({ theme }) => theme.colors.white} !important;
+    cursor: pointer;
+  }
 `;
 
 const Sidebar = () => (

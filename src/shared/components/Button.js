@@ -12,8 +12,7 @@ const Button = styled.button`
   border-radius: 5px;
   font-size: 14px;
   outline: none;
-  width: 60px;
-
+  
   &:hover {
     background: ${({ theme }) => theme.colors.darkGray};
     color: ${({ theme }) => theme.colors.white} !important;
