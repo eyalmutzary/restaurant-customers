@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../shared/components";
+import { Button, Card, Icon } from "../shared/components";
 
 const Screen = styled.div`
   display: flex;
@@ -12,6 +12,12 @@ const Screen = styled.div`
 
 const Main = () => (
   <Screen>
+    <Card
+      type="withImage"
+      src="https://dummyimage.com/180X180/000/fff"
+      title="Product Title"
+    />
+    <Icon size={"large"}>X</Icon>
     <Button>Yes</Button>
     <Button disabled={true}>Yes</Button>
     <Button.Primary>Yes</Button.Primary>
