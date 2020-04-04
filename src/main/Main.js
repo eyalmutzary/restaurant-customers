@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button, Card, Icon } from "../shared/components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Screen = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Main = () => (
       src="https://dummyimage.com/180X180/000/fff"
       title="Product Title"
     />
-    <Icon size={"large"}>X</Icon>
+    <Icon size={"large"}></Icon>
     <Button>Yes</Button>
     <Button disabled={true}>Yes</Button>
     <Button.Primary>Yes</Button.Primary>

@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "./index";
+import { Button, Icon } from "./index";
 
 const CardWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.silver};
   border: solid 1px ${({ theme }) => theme.colors.gray};
   color: ${({ theme }) => theme.colors.darkGray};
   border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 `;
 
 const ButtonWrapper = styled.div`
@@ -39,8 +40,12 @@ const Card = (props) => {
       {image}
       <Title>{props.title}</Title>
       <ButtonWrapper>
-        <Button>?</Button>
-        <Button>+</Button>
+        <Button>
+          <Icon icon={"question"}></Icon>
+        </Button>
+        <Button>
+          <Icon icon={"plus"}></Icon>
+        </Button>
       </ButtonWrapper>
     </CardWrapper>
   );
