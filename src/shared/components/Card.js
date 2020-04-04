@@ -30,24 +30,19 @@ const Title = styled.h4`
   margin: 10px 0px 10px 0px;
 `;
 
-const Card = (props) => {
-  let image = null;
-  if (props.type === "withImage") {
-    image = <Image src={props.src ? props.src : null} alt=""></Image>;
-  }
-  return (
-    <CardWrapper>
-      {image}
-      <Title>{props.title}</Title>
-      <ButtonWrapper>
-        <Button>
-          <Icon icon={"question"}></Icon>
-        </Button>
-        <Button>
-          <Icon icon={"plus"}></Icon>
-        </Button>
-      </ButtonWrapper>
-    </CardWrapper>
-  );
-};
+const Card = ({ image, title }) => (
+  <CardWrapper>
+    {image && <Image src={image} alt=""></Image>}
+    <Title>{title}</Title>
+    <ButtonWrapper>
+      <Button>
+        <Icon name={"question"}></Icon>
+      </Button>
+      <Button>
+        <Icon name={"plus"}></Icon>
+      </Button>
+    </ButtonWrapper>
+  </CardWrapper>
+);
+
 export default Card;

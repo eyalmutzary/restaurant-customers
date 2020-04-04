@@ -10,7 +10,6 @@ const Button = styled.button`
   opacity: ${({ disabled }) => disabled && 0.3};
   border: solid 2px ${({ theme }) => theme.colors.silver};
   border-radius: 5px;
-  font-size: 16px;
   font-size: 14px;
   outline: none;
   width: 60px;
