@@ -7,10 +7,29 @@ const IconWrapper = styled.div`
   font-size: ${({ size }) => (size === "large" ? "36px" : "16px")};
 `;
 
-const Icon = (props) => (
-  <IconWrapper>
-    <FontAwesomeIcon icon={props.icon} />
-  </IconWrapper>
-);
+IconWrapper.Category = styled(IconWrapper)`
+  font-size: 36px;
+  text-align: center;
+  margin: 10px 0px 10px 0px;
+`;
+
+const Icon = (props) => {
+  let item = null;
+  if (props.type === "category") {
+    item = (
+      <IconWrapper.Category>
+        <FontAwesomeIcon icon={props.icon} />
+      </IconWrapper.Category>
+    );
+  } else {
+    item = (
+      <IconWrapper>
+        <FontAwesomeIcon icon={props.icon} />
+      </IconWrapper>
+    );
+  }
+
+  return item;
+};
 
 export default Icon;

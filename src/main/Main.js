@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Card, Icon } from "../shared/components";
+import { Button, Card, Icon, Sidebar } from "../shared/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Screen = styled.div`
@@ -13,7 +13,8 @@ const Screen = styled.div`
 
 const Main = () => (
   <Screen>
-    <Card
+    <Sidebar></Sidebar>
+    {/* <Card
       type="withImage"
       src="https://dummyimage.com/180X180/000/fff"
       title="Product Title"
@@ -21,8 +22,10 @@ const Main = () => (
     <Icon size={"large"}></Icon>
     <Button>Yes</Button>
     <Button disabled={true}>Yes</Button>
-    <Button.Primary>Yes</Button.Primary>
-    <Button.Primary disabled={true}>Yes</Button.Primary>
+    <Button.Confirm>Confirm</Button.Confirm>
+    <Button.Confirm disabled={true}>Confirm</Button.Confirm>
+    <Button.Warning>Warning</Button.Warning>
+    <Button.Warning disabled={true}>Warning</Button.Warning> */}
   </Screen>
 );
 
