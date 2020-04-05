@@ -27,16 +27,16 @@ const TotalPriceWrapper = styled.div`
 const TotalText = styled.span``;
 const TotalPrice = styled.span``;
 
-const OrderList = () => (
+const OrderList = ({ items, price }) => (
   <OrderListWrapper>
     <ListWrapper>
-      <ListItem name="Hamburger" note="No cheese"></ListItem>
-      <ListItem name="Salmon"></ListItem>
-      <ListItem name="Rice" note="Extra Salt"></ListItem>
+      {items.map((item, index) => (
+        <ListItem key={index} name={item.name} note={item.note} />
+      ))}
     </ListWrapper>
     <TotalPriceWrapper>
       <TotalText>Total Price:</TotalText>
-      <TotalPrice>12.00$</TotalPrice>
+      <TotalPrice>{price}</TotalPrice>
     </TotalPriceWrapper>
   </OrderListWrapper>
 );

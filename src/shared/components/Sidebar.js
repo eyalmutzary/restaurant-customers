@@ -25,7 +25,7 @@ const Icon = styled(BaseIcon).attrs({ size: "large" })`
 
   &:hover {
     transition: 0.4s;
-    color: ${({ theme }) => theme.colors.white} !important;
+    color: ${({ theme }) => theme.colors.white};
     cursor: pointer;
   }
 `;

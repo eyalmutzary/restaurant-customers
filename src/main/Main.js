@@ -20,9 +20,13 @@ const Screen = styled.div`
 
 const Main = () => (
   <Screen>
-    <Sidebar></Sidebar>
-    <OrderList></OrderList>
-    {/* <Modal></Modal> */}
+    {/* <Sidebar></Sidebar> */}
+    {/* <OrderList></OrderList> */}
+    <Modal
+      image="https://dummyimage.com/1000X2000/000/fff"
+      name="Hamburger"
+      description="amazing burger with extra cheese"
+    ></Modal>
     {/* <Card
       image="https://dummyimage.com/180X180/000/fff"
       title="Product Title"

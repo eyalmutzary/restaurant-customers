@@ -43,12 +43,10 @@ const IconWrapper = styled.span`
   /* font-size: ${({ size }) => (size === "large" ? "36px" : "16px")}; */
 `;
 
-const Icon = ({ name, ...rest }) => {
-  return (
-    <IconWrapper {...rest}>
-      <FontAwesomeIcon icon={name} />
-    </IconWrapper>
-  );
-};
+const Icon = ({ name, ...rest }) => (
+  <IconWrapper {...rest}>
+    <FontAwesomeIcon icon={name} />
+  </IconWrapper>
+);
 
 export default Icon;
