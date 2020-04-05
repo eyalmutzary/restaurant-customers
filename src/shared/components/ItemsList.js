@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import React from "react";
-import Button from "./Button";
 import Icon from "./Icon";
+
+const ListWrapper = styled.div`
+  max-height: 70vh;
+  overflow: auto;
+`;
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -44,20 +48,24 @@ const Note = styled.span`
   padding-left: 5px;
 `;
 
-const ListItem = ({ name, note }) => (
-  <ItemWrapper>
-    <Name>{name}</Name>
-    <ButtonsWrapper>
-      <ButtonsWrapper.Icon name="edit"></ButtonsWrapper.Icon>
-      <ButtonsWrapper.Icon name="times"></ButtonsWrapper.Icon>
-    </ButtonsWrapper>
-    {note && (
-      <NoteWrapper>
-        <Icon name="star-of-life"></Icon>
-        <Note>{note}</Note>
-      </NoteWrapper>
-    )}
-  </ItemWrapper>
+const ItemsList = ({ items }) => (
+  <ListWrapper>
+    {items.map((item, index) => (
+      <ItemWrapper key={index}>
+        <Name>{item.name}</Name>
+        <ButtonsWrapper>
+          <ButtonsWrapper.Icon name="edit"></ButtonsWrapper.Icon>
+          <ButtonsWrapper.Icon name="times"></ButtonsWrapper.Icon>
+        </ButtonsWrapper>
+        {item.note && (
+          <NoteWrapper>
+            <Icon name="star-of-life"></Icon>
+            <Note>{item.note}</Note>
+          </NoteWrapper>
+        )}
+      </ItemWrapper>
+    ))}
+  </ListWrapper>
 );
 
-export default ListItem;
+export default ItemsList;

@@ -26,6 +26,9 @@ const Main = () => (
       image="https://dummyimage.com/1000X2000/000/fff"
       name="Hamburger"
       description="amazing burger with extra cheese"
+      // title="Add Note"
+      // textArea="true"
+      withConfirm="Add"
     ></Modal>
     {/* <Card
       image="https://dummyimage.com/180X180/000/fff"

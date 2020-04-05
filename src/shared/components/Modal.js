@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import BaseIcon from "./Icon";
 import BaseButton from "./Button";
+import ItemsList from "./ItemsList";
+
 
 const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
@@ -80,7 +82,7 @@ const TextArea = styled.textarea`
   width: 90%;
 `;
 
-const Modal = ({ title, image, name, description, textArea }) => (
+const Modal = ({ title, image, name, description, textArea, withConfirm, items }) => (
   <Backdrop>
     <ModalWrapper>
       {title && (
@@ -93,11 +95,12 @@ const Modal = ({ title, image, name, description, textArea }) => (
       <ContentWrapper>
         {name && <Name>{name}</Name>}
         {description && <Description>{description}</Description>}
+        {textArea && <TextArea />}
+        {items && <ItemsList items={items}/>}
       </ContentWrapper>
-      {textArea && <TextArea />}
       <ButtonsWrapper>
         <Button>Close</Button>
-        <Button.Confirm>Confirm</Button.Confirm>
+        {withConfirm && <Button.Confirm>{withConfirm}</Button.Confirm>}
       </ButtonsWrapper>
     </ModalWrapper>
   </Backdrop>

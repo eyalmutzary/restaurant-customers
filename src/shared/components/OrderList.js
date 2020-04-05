@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import ListItem from "./ListItem";
+import ItemsList from "./ItemsList";
 
 const OrderListWrapper = styled.div`
   display: flex;
@@ -12,8 +12,6 @@ const OrderListWrapper = styled.div`
   height: 80vh;
   border-radius: 7px;
 `;
-
-const ListWrapper = styled.div``;
 
 const TotalPriceWrapper = styled.div`
   display: flex;
@@ -29,11 +27,7 @@ const TotalPrice = styled.span``;
 
 const OrderList = ({ items, price }) => (
   <OrderListWrapper>
-    <ListWrapper>
-      {items.map((item, index) => (
-        <ListItem key={index} name={item.name} note={item.note} />
-      ))}
-    </ListWrapper>
+    <ItemsList items = {items}/>
     <TotalPriceWrapper>
       <TotalText>Total Price:</TotalText>
       <TotalPrice>{price}</TotalPrice>
