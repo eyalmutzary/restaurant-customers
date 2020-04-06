@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   Button as BaseButton,
@@ -44,50 +44,65 @@ const Button = styled(BaseButton.Warning)`
   border-radius: 7px;
   justify-content: space-evenly;
 `;
+const MenuWrapper = styled.div``;
 
-const Menu = () => (
-  <Screen>
-    <Sidebar />
-    <ContentWrapper>
-      <Title>Hamburgers</Title>
-      <CardsWrapper>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-        <Card
-          title={"Hamburger"}
-          image={"https://dummyimage.com/600x400/000/fff"}
-        ></Card>
-      </CardsWrapper>
-    </ContentWrapper>
-    <ListWrapper>
-      <OrderList items={[{ name: "Ahi", note: "kk" }]}></OrderList>
-      <Button>
-        Take an Order <Icon name={"angle-double-right"} />
-      </Button>
-    </ListWrapper>
-  </Screen>
-);
+const Menu = () => {
+  const [isDetalisModalShown, setIsDetalisModalShown] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+  console.log(isDetalisModalShown);
+  return (
+    <MenuWrapper>
+      {isDetalisModalShown && (
+        <Modal onHide={() => setIsDetalisModalShown(false)}>
+          <Icon name={"times"} />
+        </Modal>
+      )}
+
+      <Screen>
+        <Sidebar />
+        <ContentWrapper>
+          <Title>Hamburgers</Title>
+          <CardsWrapper>
+            <Card
+              title={"xxx"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+              onInfoClicked={() => setIsDetalisModalShown(true)}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+            <Card
+              title={"Hamburger"}
+              image={"https://dummyimage.com/600x400/000/fff"}
+            ></Card>
+          </CardsWrapper>
+        </ContentWrapper>
+        <ListWrapper>
+          <OrderList items={[{ name: "Ahi", note: "kk" }]}></OrderList>
+          <Button>
+            Take an Order <Icon name={"angle-double-right"} />
+          </Button>
+        </ListWrapper>
+      </Screen>
+    </MenuWrapper>
+  );
+};
 
 export default Menu;

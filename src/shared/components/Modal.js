@@ -6,18 +6,19 @@ import BaseButton from "./Button";
 
 const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  width: 100%;
   z-index: 10;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center; /*centers items on the line (the x-axis by default)*/
-  align-items: flex-start; /*centers items on the cross-axis (y by default)*/
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
 `;
 
 const ModalWrapper = styled.div`
   z-index: 11;
   width: 45vw;
-  max-height: 90vh;
   background-color: ${({ theme }) => theme.colors.silver};
   border-radius: 7px;
   margin-top: 30px;
@@ -89,10 +90,15 @@ const Modal = ({
   textArea,
   isConfirm,
   items,
+  children,
+  onHide,
 }) => (
-  <Backdrop>
+  <Backdrop onClick={onHide}>
     <ModalWrapper>
-      {title && (
+      {/* <XIcon></XIcon> */}
+      {/* <TitleWrapper>{title}</TitleWrapper> */}
+      {children}
+      {/* {title && (
         <Title>
           {title}
           <Icon name={"times"} />
@@ -103,12 +109,12 @@ const Modal = ({
         {name && <Name>{name}</Name>}
         {description && <Description>{description}</Description>}
         {textArea && <TextArea />}
-        {/* {items && <ItemsList items={items}/>} */}
+        {items && <ItemsList items={items}/>}
       </ContentWrapper>
       <ButtonsWrapper>
         <Button>Close</Button>
         {isConfirm && <Button.Confirm>{isConfirm}</Button.Confirm>}
-      </ButtonsWrapper>
+      </ButtonsWrapper> */}
     </ModalWrapper>
   </Backdrop>
 );

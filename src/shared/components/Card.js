@@ -38,12 +38,12 @@ const Button = styled(BaseButton)`
   width: 60px;
 `;
 
-const Card = ({ image, title }) => (
+const Card = ({ image, title, onInfoClicked }) => (
   <CardWrapper>
     {image && <Image src={image} alt=""></Image>}
     <Title>{title}</Title>
     <ButtonWrapper>
-      <Button>
+      <Button onClick={onInfoClicked}>
         <Icon name={"question"}></Icon>
       </Button>
       <Button>
