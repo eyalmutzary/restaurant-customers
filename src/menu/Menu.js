@@ -7,14 +7,8 @@ import {
   Sidebar,
   Modal,
   OrderList,
+  Screen,
 } from "../shared/components";
-
-const Screen = styled.div`
-  display: flex;
-  justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.silver};
-  max-height: 100vh;
-`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -41,13 +35,11 @@ const ListWrapper = styled.div`
   margin: 10px;
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
 `;
 
 const Button = styled(BaseButton.Warning)`
-  width: 100%;
   margin-top: 10px;
-  height: 15%;
+  flex: 1;
   font-size: 30px;
   border-radius: 7px;
   justify-content: space-evenly;
@@ -55,7 +47,7 @@ const Button = styled(BaseButton.Warning)`
 
 const Menu = () => (
   <Screen>
-    <Sidebar></Sidebar>
+    <Sidebar />
     <ContentWrapper>
       <Title>Hamburgers</Title>
       <CardsWrapper>

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Button as BaseButton } from "../shared/components";
+import {
+  Button as BaseButton,
+  Screen as BaseScreen,
+} from "../shared/components";
 
-const Screen = styled.div`
-  background-color: grey;
-  height: 100vh;
-  display: flex;
+const Screen = styled(BaseScreen)`
   justify-content: space-around;
   padding-top: 100px;
 `;
@@ -37,14 +37,22 @@ const Button = styled(BaseButton.Main)`
   height: 55px;
 `;
 
-const Main = () => (
+const Main = ({ history }) => (
   <Screen>
     <LogoWrapper>
       <Title>Well-Served</Title>
       <Subtitle>Probably the best serving app in the world.</Subtitle>
     </LogoWrapper>
     <ButtonWrapper>
-      <Button>Menu</Button>
+      <Button
+        onClick={() => {
+          console.log("clicked");
+          console.log(history);
+          history.push("/menu");
+        }}
+      >
+        Menu
+      </Button>
       <Button>My Table</Button>
       <Button>Call a Waiter</Button>
       <Button>Check, Please</Button>
