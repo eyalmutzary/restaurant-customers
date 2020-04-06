@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BaseIcon from "./Icon";
 import BaseButton from "./Button";
-import ItemsList from "./ItemsList";
-
+// import ItemsList from "./ItemsList";
 
 const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
@@ -82,7 +81,15 @@ const TextArea = styled.textarea`
   width: 90%;
 `;
 
-const Modal = ({ title, image, name, description, textArea, isConfirm, items }) => (
+const Modal = ({
+  title,
+  image,
+  name,
+  description,
+  textArea,
+  isConfirm,
+  items,
+}) => (
   <Backdrop>
     <ModalWrapper>
       {title && (
@@ -96,7 +103,7 @@ const Modal = ({ title, image, name, description, textArea, isConfirm, items }) 
         {name && <Name>{name}</Name>}
         {description && <Description>{description}</Description>}
         {textArea && <TextArea />}
-        {items && <ItemsList items={items}/>}
+        {/* {items && <ItemsList items={items}/>} */}
       </ContentWrapper>
       <ButtonsWrapper>
         <Button>Close</Button>

@@ -38,7 +38,15 @@ library.add(
   faStarOfLife
 );
 
-const IconWrapper = styled.span``;
+const IconWrapper = styled.div``;
+
+// const IconCSS = styled(Icon)`
+//   cursor: pointer;
+//   &:hover {
+//     color: ${({ theme }) => theme.colors.darkGray};
+//     transition: 0.4s;
+//   }
+// `;
 
 const Icon = ({ name, ...rest }) => (
   <IconWrapper {...rest}>

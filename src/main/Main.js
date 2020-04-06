@@ -21,15 +21,15 @@ const Screen = styled.div`
 const Main = () => (
   <Screen>
     {/* <Sidebar></Sidebar> */}
-    {/* <OrderList></OrderList> */}
-    <Modal
+    <OrderList items={[{ name: "Ahi", note: "kk" }]}></OrderList>
+    {/* <Modal
       image="https://dummyimage.com/1000X2000/000/fff"
       name="Hamburger"
       description="amazing burger with extra cheese"
       // title="Add Note"
       // textArea="true"
-      withConfirm="Add"
-    ></Modal>
+      isConfirm="Add"
+    ></Modal> */}
     {/* <Card
       image="https://dummyimage.com/180X180/000/fff"
       title="Product Title"
