@@ -12,7 +12,9 @@ const Button = styled.button`
   border-radius: 5px;
   font-size: 14px;
   outline: none;
-  
+  display: flex;
+  justify-content: center;
+
   &:hover {
     background: ${({ theme }) => theme.colors.darkGray};
     color: ${({ theme }) => theme.colors.white};
@@ -34,6 +36,13 @@ Button.Warning = styled(Button)`
   &:hover {
     background-color: ${({ theme, disabled }) => !disabled && theme.colors.red};
   }
+`;
+
+Button.Main = styled(Button)`
+  font-size: larger;
+  border: 3px solid ${({ theme }) => theme.colors.white};
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 1px rgb(90, 80, 80) inset;
 `;
 
 export default Button;

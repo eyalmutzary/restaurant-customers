@@ -5,11 +5,9 @@ import BaseIcon from "./Icon";
 const SidebarWarpper = styled.div`
   width: 5vw;
   height: 100vh;
-  position: fixed;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  left: 0px;
   background-color: ${({ theme }) => theme.colors.darkGray};
   border-right: 2px solid ${({ theme }) => theme.colors.black};
 `;

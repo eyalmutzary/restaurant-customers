@@ -1,46 +1,54 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Button,
-  Card,
-  Icon,
-  Sidebar,
-  Modal,
-  OrderList,
-} from "../shared/components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button as BaseButton } from "../shared/components";
 
 const Screen = styled.div`
+  background-color: grey;
+  height: 100vh;
   display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  padding-top: 100px;
+`;
+
+const LogoWrapper = styled.div`
+  display: flex;
   flex-direction: column;
+  color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+`;
+
+const Title = styled.div`
+  font-size: 100px;
+`;
+
+const Subtitle = styled.div`
+  font-size: 25px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-right: 50px;
+`;
+
+const Button = styled(BaseButton.Main)`
+  margin: 10px;
+  width: 180px;
+  height: 55px;
 `;
 
 const Main = () => (
   <Screen>
-    {/* <Sidebar></Sidebar> */}
-    <OrderList items={[{ name: "Ahi", note: "kk" }]}></OrderList>
-    {/* <Modal
-      image="https://dummyimage.com/1000X2000/000/fff"
-      name="Hamburger"
-      description="amazing burger with extra cheese"
-      // title="Add Note"
-      // textArea="true"
-      isConfirm="Add"
-    ></Modal> */}
-    {/* <Card
-      image="https://dummyimage.com/180X180/000/fff"
-      title="Product Title"
-    />
-    <Icon size={"large"}></Icon>
-    <Button>Yes</Button>
-    <Button disabled={true}>Yes</Button>
-    <Button.Confirm>Confirm</Button.Confirm>
-    <Button.Confirm disabled={true}>Confirm</Button.Confirm>
-    <Button.Warning>Warning</Button.Warning>
-    <Button.Warning disabled={true}>Warning</Button.Warning> */}
+    <LogoWrapper>
+      <Title>Well-Served</Title>
+      <Subtitle>Probably the best serving app in the world.</Subtitle>
+    </LogoWrapper>
+    <ButtonWrapper>
+      <Button>Menu</Button>
+      <Button>My Table</Button>
+      <Button>Call a Waiter</Button>
+      <Button>Check, Please</Button>
+    </ButtonWrapper>
   </Screen>
 );
 
