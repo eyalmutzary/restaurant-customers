@@ -15,7 +15,7 @@ const ItemWrapper = styled.div`
   margin: 20px 0px 20px 0px;
 `;
 
-const ButtonsWrapper = styled.div`
+const IconsWrapper = styled.div`
   width: 25%;
   display: flex;
   justify-content: space-between;
@@ -23,7 +23,7 @@ const ButtonsWrapper = styled.div`
   font-size: 16px;
 `;
 
-ButtonsWrapper.Icon = styled(Icon)`
+IconsWrapper.Icon = styled(Icon)`
   cursor: pointer;
 
   &:hover {
@@ -53,10 +53,10 @@ const ItemsList = ({ items }) => (
     {items.map((item, index) => (
       <ItemWrapper key={index}>
         <Name>{item.name}</Name>
-        <ButtonsWrapper>
-          <ButtonsWrapper.Icon name="edit"></ButtonsWrapper.Icon>
-          <ButtonsWrapper.Icon name="times"></ButtonsWrapper.Icon>
-        </ButtonsWrapper>
+        <IconsWrapper>
+          <IconsWrapper.Icon name="edit"></IconsWrapper.Icon>
+          <IconsWrapper.Icon name="times"></IconsWrapper.Icon>
+        </IconsWrapper>
         {item.note && (
           <NoteWrapper>
             <Icon name="star-of-life"></Icon>

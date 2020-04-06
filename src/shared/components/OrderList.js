@@ -22,15 +22,14 @@ const TotalPriceWrapper = styled.div`
   padding-top: 14px;
 `;
 
-const TotalText = styled.span``;
-const TotalPrice = styled.span``;
+const Text = styled.span``;
 
 const OrderList = ({ items, price }) => (
   <OrderListWrapper>
-    <ItemsList items = {items}/>
+    {items ? <ItemsList items = {items} /> : <Text>List is empty.</Text>}
     <TotalPriceWrapper>
-      <TotalText>Total Price:</TotalText>
-      <TotalPrice>{price}</TotalPrice>
+      <Text>Total Price:</Text>
+      <Text>{price && '0.00$'}</Text>
     </TotalPriceWrapper>
   </OrderListWrapper>
 );

@@ -82,7 +82,7 @@ const TextArea = styled.textarea`
   width: 90%;
 `;
 
-const Modal = ({ title, image, name, description, textArea, withConfirm, items }) => (
+const Modal = ({ title, image, name, description, textArea, isConfirm, items }) => (
   <Backdrop>
     <ModalWrapper>
       {title && (
@@ -100,7 +100,7 @@ const Modal = ({ title, image, name, description, textArea, withConfirm, items }
       </ContentWrapper>
       <ButtonsWrapper>
         <Button>Close</Button>
-        {withConfirm && <Button.Confirm>{withConfirm}</Button.Confirm>}
+        {isConfirm && <Button.Confirm>{isConfirm}</Button.Confirm>}
       </ButtonsWrapper>
     </ModalWrapper>
   </Backdrop>

@@ -38,10 +38,7 @@ library.add(
   faStarOfLife
 );
 
-const IconWrapper = styled.span`
-  /* color: ${({ theme }) => theme.colors.gray}; */
-  /* font-size: ${({ size }) => (size === "large" ? "36px" : "16px")}; */
-`;
+const IconWrapper = styled.span``;
 
 const Icon = ({ name, ...rest }) => (
   <IconWrapper {...rest}>
