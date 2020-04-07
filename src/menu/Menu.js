@@ -45,37 +45,16 @@ const Button = styled(BaseButton.Warning)`
   justify-content: space-evenly;
 `;
 
-const Image = styled.img`
-  padding: 0px;
-  object-fit: cover;
-  width: 100%;
-  height: 40vh;
-  border-radius: 3px;
-`;
-
-const Name = styled.h4`
-  margin: 10px;
-  text-align: center;
-  font-size: 22px;
-
-  &:after {
-    content: "";
-    display: block;
-    margin: 0 auto;
-    width: 60px;
-    padding-top: 20px;
-    border-bottom: 6px solid ${({ theme }) => theme.colors.red};
-  }
-`;
-
 const Description = styled.p`
-  padding: 0px 10px 0px 20px;
+  padding: 20px;
   font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2px;
 `;
 
 const TextArea = styled.textarea`
   height: 15vh;
-  margin: 10px 20px 10px 20px;
+  margin: 30px 20px 30px 20px;
   width: 90%;
 `;
 
@@ -103,7 +82,21 @@ const Menu = () => {
     []
   );
 
-  const onModalHide = useCallback(() => setIsDetalisModalShown(false), []);
+  const onModalHide = useCallback((modalType) => {
+    switch (modalType) {
+      case "details":
+        setIsDetalisModalShown(false, []);
+        break;
+      case "note":
+        setIsNoteModalShown(false, []);
+        break;
+      case "confirm":
+        setIsConfirmModalShown(false, []);
+        break;
+      default:
+        break;
+    }
+  });
 
   const handleInfoClick = (cardInfo) => {
     setIsDetalisModalShown(true);
@@ -114,9 +107,12 @@ const Menu = () => {
   return (
     <MenuWrapper>
       {isDetalisModalShown && (
-        <Modal onHide={onModalHide} buttons={addCloseModalButtons}>
-          <Image src={selectedCardDetails.image} />}
-          <Name>{selectedCardDetails.title}</Name>
+        <Modal
+          title={selectedCardDetails.title}
+          image={selectedCardDetails.image}
+          onHide={() => onModalHide("details")}
+          buttons={addCloseModalButtons}
+        >
           <Description>{selectedCardDetails.description}</Description>
         </Modal>
       )}
@@ -124,7 +120,7 @@ const Menu = () => {
       {isNoteModalShown && (
         <Modal
           title="Add Note"
-          onHide={onModalHide}
+          onHide={() => onModalHide("note")}
           buttons={confirmModalButtons}
         >
           <TextArea />
@@ -134,7 +130,7 @@ const Menu = () => {
       {isConfirmModalShown && (
         <Modal
           title="Confirm"
-          onHide={onModalHide}
+          onHide={() => onModalHide("confirm")}
           buttons={confirmModalButtons}
         >
           <Description>Are you sure?</Description>

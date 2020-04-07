@@ -41,12 +41,27 @@ const Icon = styled(BaseIcon)`
   }
 `;
 
+const Image = styled.img`
+  padding: 0px;
+  object-fit: cover;
+  width: 100%;
+  height: 40vh;
+  border-radius: 3px;
+`;
+
 const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: solid 1px ${({ theme }) => theme.colors.gray};
-  margin: 10px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 26px;
+
+  &:after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 60px;
+    padding-top: 40px;
+    border-bottom: 6px solid ${({ theme }) => theme.colors.red};
+  }
 `;
 
 const ContentWrapper = styled.div``;
@@ -55,6 +70,7 @@ const BottomWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   background-color: ${({ theme }) => theme.colors.black};
+  border-top: solid 2px ${({ theme }) => theme.colors.red};
 `;
 
 const BottomText = styled.div`
@@ -70,7 +86,7 @@ const BottomText = styled.div`
   }
 `;
 
-const Modal = ({ title, children, onHide, buttons }) => {
+const Modal = ({ title, image, children, onHide, buttons }) => {
   const handleModalClick = (event) => {
     event.stopPropagation();
   };
@@ -79,6 +95,7 @@ const Modal = ({ title, children, onHide, buttons }) => {
     <Backdrop onClick={onHide}>
       <ModalWrapper onClick={handleModalClick}>
         <Icon name="times" onClick={onHide} />
+        {image && <Image src={image} />}
         {title && <TitleWrapper>{title}</TitleWrapper>}
         <ContentWrapper>{children}</ContentWrapper>
         {buttons && (
