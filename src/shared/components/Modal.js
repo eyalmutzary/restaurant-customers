@@ -92,13 +92,18 @@ const Modal = ({
   items,
   children,
   onHide,
-}) => (
-  <Backdrop onClick={onHide}>
-    <ModalWrapper>
-      {/* <XIcon></XIcon> */}
-      {/* <TitleWrapper>{title}</TitleWrapper> */}
-      {children}
-      {/* {title && (
+}) => {
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
+
+  return (
+    <Backdrop onClick={onHide}>
+      <ModalWrapper onClick={handleModalClick}>
+        {/* <XIcon></XIcon> */}
+        {/* <TitleWrapper>{title}</TitleWrapper> */}
+        {children}
+        {/* {title && (
         <Title>
           {title}
           <Icon name={"times"} />
@@ -115,8 +120,9 @@ const Modal = ({
         <Button>Close</Button>
         {isConfirm && <Button.Confirm>{isConfirm}</Button.Confirm>}
       </ButtonsWrapper> */}
-    </ModalWrapper>
-  </Backdrop>
-);
+      </ModalWrapper>
+    </Backdrop>
+  );
+};
 
 export default Modal;

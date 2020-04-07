@@ -46,12 +46,12 @@ const NoteIcon = styled(BaseIcon)`
   margin-right: 10px;
 `;
 
-const OrderItem = ({ name, note }) => (
+const OrderItem = ({ name, note, onAddNote }) => (
   <ItemWrapper>
     <ToolbarWrapper>
       <Name>{name}</Name>
       <IconsWrapper>
-        <TopIcon name="edit"></TopIcon>
+        <TopIcon name="edit" onClick={onAddNote}></TopIcon>
         <TopIcon name="times"></TopIcon>
       </IconsWrapper>
     </ToolbarWrapper>

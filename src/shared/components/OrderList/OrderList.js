@@ -40,7 +40,7 @@ const OrderItemsWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-const OrderList = ({ items, price }) => {
+const OrderList = ({ items, price, onAddNote }) => {
   const isItemsEmpty = !items || items.length === 0;
 
   return (
@@ -49,7 +49,7 @@ const OrderList = ({ items, price }) => {
       <OrderItemsWrapper>
         {!isItemsEmpty ? (
           items.map(({ name, note }) => (
-            <OrderItem name={name} note={note}></OrderItem>
+            <OrderItem name={name} note={note} onAddNote={onAddNote}></OrderItem>
           ))
         ) : (
           <Text>List is empty.</Text>
