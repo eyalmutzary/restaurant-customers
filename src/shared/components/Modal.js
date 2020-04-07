@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import BaseIcon from "./Icon";
-import BaseButton from "./Button";
-// import ItemsList from "./ItemsList";
+import Button from "./Button";
 
 const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
@@ -27,7 +25,7 @@ const ModalWrapper = styled.div`
   font-size: 20px;
 `;
 
-const Title = styled.div`
+const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
@@ -35,33 +33,8 @@ const Title = styled.div`
   margin: 10px;
 `;
 
-const Icon = styled(BaseIcon)`
-  &:hover {
-    color: ${({ theme }) => theme.colors.black};
-    transition: 0.4s;
-    cursor: pointer;
-  }
-`;
-
-const Image = styled.img`
-  padding: 0px;
-  object-fit: cover;
-  width: 100%;
-  height: 40vh;
-  border-radius: 7px;
-`;
-
 const ContentWrapper = styled.div`
   padding: 10px;
-`;
-
-const Name = styled.h4`
-  margin: 10px;
-`;
-
-const Description = styled.p`
-  margin: 10px;
-  font-size: 16px;
 `;
 
 const ButtonsWrapper = styled.div`
@@ -72,27 +45,7 @@ const ButtonsWrapper = styled.div`
   margin: 10px;
 `;
 
-const Button = styled(BaseButton)`
-  margin-right: 10px;
-`;
-
-const TextArea = styled.textarea`
-  height: 15vh;
-  margin: 10px 20px 10px 20px;
-  width: 90%;
-`;
-
-const Modal = ({
-  title,
-  image,
-  name,
-  description,
-  textArea,
-  isConfirm,
-  items,
-  children,
-  onHide,
-}) => {
+const Modal = ({ title, children, onHide, buttons }) => {
   const handleModalClick = (event) => {
     event.stopPropagation();
   };
@@ -100,26 +53,15 @@ const Modal = ({
   return (
     <Backdrop onClick={onHide}>
       <ModalWrapper onClick={handleModalClick}>
-        {/* <XIcon></XIcon> */}
-        {/* <TitleWrapper>{title}</TitleWrapper> */}
-        {children}
-        {/* {title && (
-        <Title>
-          {title}
-          <Icon name={"times"} />
-        </Title>
-      )}
-      {image && <Image src={image} />}
-      <ContentWrapper>
-        {name && <Name>{name}</Name>}
-        {description && <Description>{description}</Description>}
-        {textArea && <TextArea />}
-        {items && <ItemsList items={items}/>}
-      </ContentWrapper>
-      <ButtonsWrapper>
-        <Button>Close</Button>
-        {isConfirm && <Button.Confirm>{isConfirm}</Button.Confirm>}
-      </ButtonsWrapper> */}
+        {title && <TitleWrapper>{title}</TitleWrapper>}
+        <ContentWrapper>{children}</ContentWrapper>
+        {buttons && (
+          <ButtonsWrapper>
+            {buttons.map(({ text, onClick }) => (
+              <Button onClick={onClick}>{text}</Button>
+            ))}
+          </ButtonsWrapper>
+        )}
       </ModalWrapper>
     </Backdrop>
   );

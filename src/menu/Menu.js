@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import {
   Button as BaseButton,
@@ -9,7 +9,7 @@ import {
   OrderList,
   Screen,
 } from "../shared/components";
-
+import { foodCards } from "../shared/constants";
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,18 +53,6 @@ const Image = styled.img`
   border-radius: 7px;
 `;
 
-const ModalContentWrapper = styled.div`
-  padding: 10px;
-`;
-
-const ModalTitle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: solid 1px ${({ theme }) => theme.colors.gray};
-  margin: 10px;
-`;
-
 const Name = styled.h4`
   margin: 10px;
 `;
@@ -80,125 +68,74 @@ const TextArea = styled.textarea`
   width: 90%;
 `;
 
-const ButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 20px;
-  border-top: solid 1px ${({ theme }) => theme.colors.gray};
-  margin: 10px;
-`;
-
 const MenuWrapper = styled.div``;
 
 const Menu = () => {
   const [isDetalisModalShown, setIsDetalisModalShown] = useState(false);
   const [isNoteModalShown, setIsNoteModalShown] = useState(false);
   const [isConfirmModalShown, setIsConfirmModalShown] = useState(false);
+  const [selectedCardDetails, setSelectedCardDetails] = useState();
 
-  const [selectedCardDetails, setSelectedCardDetails] = useState({
-    name: "Hamburger",
-    description: "description",
-    image: "https://dummyimage.com/600x400/000/fff",
-  });
+  const addCloseModalButtons = useMemo(
+    () => [
+      { text: "Close", onClick: () => setIsDetalisModalShown(false) },
+      { text: "Add", type: "Confirm" },
+    ],
+    []
+  );
 
-  const handleInfoClick = () => {
+  const confirmModalButtons = useMemo(
+    () => [
+      { text: "Close", onClick: () => setIsDetalisModalShown(false) },
+      { text: "Confirm", type: "Confirm" },
+    ],
+    []
+  );
+
+  const onModalHide = useCallback(() => setIsDetalisModalShown(false), []);
+
+  const handleInfoClick = (cardInfo) => {
     setIsDetalisModalShown(true);
-    // setSelectedCardDetails()
+    setSelectedCardDetails(cardInfo);
   };
 
   return (
     <MenuWrapper>
       {isDetalisModalShown && (
-        <Modal onHide={() => setIsDetalisModalShown(false)}>
+        <Modal onHide={onModalHide} buttons={addCloseModalButtons}>
           <Image src={selectedCardDetails.image} />}
-          <ModalContentWrapper>
-            <Name>{selectedCardDetails.name}</Name>
-            <Description>{selectedCardDetails.description}</Description>
-          </ModalContentWrapper>
-          <ButtonsWrapper>
-            <BaseButton onClick={() => setIsDetalisModalShown(false)}>
-              Close
-            </BaseButton>
-            <Button.Confirm>Add</Button.Confirm>
-          </ButtonsWrapper>
+          <Name>{selectedCardDetails.title}</Name>
+          <Description>{selectedCardDetails.description}</Description>
         </Modal>
       )}
 
       {isNoteModalShown && (
-        <Modal onHide={() => setIsNoteModalShown(false)}>
-          <ModalTitle>
-            Add Note
-            <Icon name={"times"} onClick={() => setIsNoteModalShown(false)} />
-          </ModalTitle>
-          <ModalContentWrapper>
-            <TextArea />
-          </ModalContentWrapper>
-          <ButtonsWrapper>
-            <BaseButton onClick={() => setIsNoteModalShown(false)}>
-              Close
-            </BaseButton>
-            <Button.Confirm>Add</Button.Confirm>
-          </ButtonsWrapper>
+        <Modal
+          title="Add Note"
+          onHide={onModalHide}
+          buttons={confirmModalButtons}
+        >
+          <TextArea />
         </Modal>
       )}
 
       {isConfirmModalShown && (
-        <Modal onHide={() => setIsConfirmModalShown(false)}>
-          <ModalTitle>
-            Please Confirm
-            <Icon
-              name={"times"}
-              onClick={() => setIsConfirmModalShown(false)}
-            />
-          </ModalTitle>
-          <ModalContentWrapper>
-            <Description>Are you sure?</Description>
-          </ModalContentWrapper>
-          <ButtonsWrapper>
-            <BaseButton onClick={() => setIsConfirmModalShown(false)}>
-              Close
-            </BaseButton>
-            <Button.Confirm>Confirm</Button.Confirm>
-          </ButtonsWrapper>
+        <Modal
+          title="Confirm"
+          onHide={onModalHide}
+          buttons={confirmModalButtons}
+        >
+          <Description>Are you sure?</Description>
         </Modal>
       )}
-
       <Screen>
         <Sidebar />
         <ContentWrapper>
           <Title>Hamburgers</Title>
           <CardsWrapper>
-            <Card
-              title={"xxx"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-              onInfoClicked={({ title, image }) =>
-                handleInfoClick(title, image)
-              }
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
-            <Card
-              title={"Hamburger"}
-              image={"https://dummyimage.com/600x400/000/fff"}
-            ></Card>
+            {foodCards.map(({ uuid, ...cardProps }) => (
+              <Card key={uuid} {...cardProps}></Card>
+            ))}
           </CardsWrapper>
         </ContentWrapper>
         <ListWrapper>

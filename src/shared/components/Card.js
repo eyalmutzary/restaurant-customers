@@ -43,7 +43,7 @@ const Card = ({ image, title, onInfoClicked }) => (
     {image && <Image src={image} alt=""></Image>}
     <Title>{title}</Title>
     <ButtonWrapper>
-      <Button onClick={onInfoClicked}>
+      <Button onClick={() => onInfoClicked({ title, image })}>
         <Icon name={"question"}></Icon>
       </Button>
       <Button>
