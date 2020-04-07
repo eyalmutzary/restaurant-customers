@@ -50,16 +50,27 @@ const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 40vh;
-  border-radius: 7px;
+  border-radius: 3px;
 `;
 
 const Name = styled.h4`
   margin: 10px;
+  text-align: center;
+  font-size: 22px;
+
+  &:after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 60px;
+    padding-top: 20px;
+    border-bottom: 6px solid ${({ theme }) => theme.colors.red};
+  }
 `;
 
 const Description = styled.p`
-  margin: 10px;
-  font-size: 16px;
+  padding: 0px 10px 0px 20px;
+  font-size: 20px;
 `;
 
 const TextArea = styled.textarea`
@@ -96,6 +107,7 @@ const Menu = () => {
 
   const handleInfoClick = (cardInfo) => {
     setIsDetalisModalShown(true);
+    console.log(cardInfo);
     setSelectedCardDetails(cardInfo);
   };
 
@@ -134,7 +146,11 @@ const Menu = () => {
           <Title>Hamburgers</Title>
           <CardsWrapper>
             {foodCards.map(({ uuid, ...cardProps }) => (
-              <Card key={uuid} {...cardProps}></Card>
+              <Card
+                key={uuid}
+                onInfoClicked={handleInfoClick}
+                {...cardProps}
+              ></Card>
             ))}
           </CardsWrapper>
         </ContentWrapper>
