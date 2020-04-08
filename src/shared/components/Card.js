@@ -48,7 +48,7 @@ const Icon = styled(BaseIcon)`
   margin-left: 20px;
 `;
 
-const Card = ({ image, title, price, onInfoClicked, description, ...rest }) => (
+const Card = ({ image, title, price, onInfoClicked, onAddClicked, description, ...rest }) => (
   <CardWrapper>
     {image && <Image src={image} alt=""></Image>}
     <Title>{title}</Title>
@@ -59,7 +59,10 @@ const Card = ({ image, title, price, onInfoClicked, description, ...rest }) => (
           name={"question"}
           onClick={() => onInfoClicked({ title, image, price, description })}
         />
-        <Icon name={"plus"} />
+        <Icon
+          name={"plus"}
+          onClick={() => onAddClicked({ title })}
+        />
       </IconsWrapper>
     </ContentWrapper>
   </CardWrapper>

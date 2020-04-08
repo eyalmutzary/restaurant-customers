@@ -31,6 +31,12 @@ const TotalPriceWrapper = styled.div`
 
 const Text = styled.div``;
 
+Text.Empty = styled(Text)`
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px 0px 10px 0px;
+`;
+
 const OrderItemsWrapper = styled.div`
   max-height: 70vh;
   overflow: auto;
@@ -48,11 +54,15 @@ const OrderList = ({ items, price, onAddNote }) => {
       <Title>Order List:</Title>
       <OrderItemsWrapper>
         {!isItemsEmpty ? (
-          items.map(({ name, note }) => (
-            <OrderItem name={name} note={note} onAddNote={onAddNote}></OrderItem>
+          items.map(({ title, note }) => (
+            <OrderItem
+              title={title}
+              note={note}
+              onAddNote={onAddNote}
+            ></OrderItem>
           ))
         ) : (
-          <Text>List is empty.</Text>
+          <Text.Empty>List is empty.</Text.Empty>
         )}
       </OrderItemsWrapper>
       <TotalPriceWrapper>

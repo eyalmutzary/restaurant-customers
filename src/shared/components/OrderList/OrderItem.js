@@ -7,8 +7,9 @@ const ItemWrapper = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
-  font-size: 20px;
-  margin: 20px 0px 20px 0px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px 0px 10px 0px;
 `;
 
 const IconsWrapper = styled.div`
@@ -18,7 +19,7 @@ const IconsWrapper = styled.div`
   font-size: 16px;
 `;
 
-const Name = styled.div`
+const Title = styled.div`
   color: ${({ theme }) => theme.colors.darkGray};
 `;
 
@@ -46,10 +47,10 @@ const NoteIcon = styled(BaseIcon)`
   margin-right: 10px;
 `;
 
-const OrderItem = ({ name, note, onAddNote }) => (
+const OrderItem = ({ title, note, onAddNote }) => (
   <ItemWrapper>
     <ToolbarWrapper>
-      <Name>{name}</Name>
+      <Title>{title}</Title>
       <IconsWrapper>
         <TopIcon name="edit" onClick={onAddNote}></TopIcon>
         <TopIcon name="times"></TopIcon>

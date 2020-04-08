@@ -63,6 +63,7 @@ const MenuWrapper = styled.div``;
 const Menu = () => {
   const [whichModalShown, setWhichModalShown] = useState(null);
   const [selectedCardDetails, setSelectedCardDetails] = useState();
+  const [orderListItems, setOrderListItems] = useState([]);
 
   const modalButtons = useMemo(
     () => [
@@ -75,6 +76,16 @@ const Menu = () => {
   const handleCardInfoClick = (cardInfo) => {
     setWhichModalShown("details");
     setSelectedCardDetails(cardInfo);
+  };
+
+  const handleAddItemClick = (itemInfo) => {
+    setOrderListItems([
+      ...orderListItems,
+      {
+        title: itemInfo.title,
+        note: "",
+      },
+    ]);
   };
 
   return (
@@ -119,6 +130,7 @@ const Menu = () => {
               <Card
                 key={uuid}
                 onInfoClicked={handleCardInfoClick}
+                onAddClicked={handleAddItemClick}
                 {...cardProps}
               ></Card>
             ))}
@@ -126,7 +138,7 @@ const Menu = () => {
         </ContentWrapper>
         <ListWrapper>
           <OrderList
-            items={[{ name: "Ahi", note: "kk" }]}
+            items={orderListItems}
             onAddNote={() => setWhichModalShown("note")}
           ></OrderList>
           <Button onClick={() => setWhichModalShown("confirm")}>
