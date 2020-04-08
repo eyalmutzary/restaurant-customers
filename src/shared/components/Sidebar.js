@@ -9,7 +9,7 @@ const SidebarWarpper = styled.div`
   justify-content: space-between;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.darkGray};
-  border-right: 2px solid ${({ theme }) => theme.colors.black};
+  border-right: 2px solid ${({ theme }) => theme.colors.red};
 `;
 
 const Wrapper = styled.div``;
@@ -18,12 +18,13 @@ const Icon = styled(BaseIcon).attrs({ size: "large" })`
   display: block;
   text-align: center;
   font-size: 36px;
-  margin: 10px 0px 10px 0px;
-  color: ${({ theme }) => theme.colors.gray};
+  padding: 10px 0px 10px 0px;
+  color: ${({ theme }) => theme.colors.silver};
+  /* border-right: 2px solid ${({ theme }) => theme.colors.red}; */
 
   &:hover {
     transition: 0.4s;
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.red};
     cursor: pointer;
   }
 `;

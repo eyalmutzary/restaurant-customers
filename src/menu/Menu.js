@@ -61,81 +61,55 @@ const TextArea = styled.textarea`
 const MenuWrapper = styled.div``;
 
 const Menu = () => {
-  const [isDetalisModalShown, setIsDetalisModalShown] = useState(false);
-  const [isNoteModalShown, setIsNoteModalShown] = useState(false);
-  const [isConfirmModalShown, setIsConfirmModalShown] = useState(false);
+  const [whichModalShown, setWhichModalShown] = useState(null);
   const [selectedCardDetails, setSelectedCardDetails] = useState();
 
-  const addCloseModalButtons = useMemo(
+  const modalButtons = useMemo(
     () => [
-      { text: "Close", onClick: () => setIsDetalisModalShown(false) },
-      { text: "Add", type: "Confirm" },
-    ],
-    []
-  );
-
-  const confirmModalButtons = useMemo(
-    () => [
-      { text: "Close", onClick: () => setIsDetalisModalShown(false) },
+      { text: "Close", onClick: () => setWhichModalShown(null) },
       { text: "Confirm", type: "Confirm" },
     ],
     []
   );
 
-  const onModalHide = useCallback((modalType) => {
-    switch (modalType) {
-      case "details":
-        setIsDetalisModalShown(false, []);
-        break;
-      case "note":
-        setIsNoteModalShown(false, []);
-        break;
-      case "confirm":
-        setIsConfirmModalShown(false, []);
-        break;
-      default:
-        break;
-    }
-  });
-
-  const handleInfoClick = (cardInfo) => {
-    setIsDetalisModalShown(true);
-    console.log(cardInfo);
+  const handleCardInfoClick = (cardInfo) => {
+    setWhichModalShown("details");
     setSelectedCardDetails(cardInfo);
   };
 
   return (
     <MenuWrapper>
-      {isDetalisModalShown && (
+      {whichModalShown === "details" ? (
         <Modal
           title={selectedCardDetails.title}
           image={selectedCardDetails.image}
-          onHide={() => onModalHide("details")}
-          buttons={addCloseModalButtons}
+          onHide={() => setWhichModalShown(null)}
+          buttons={modalButtons}
         >
           <Description>{selectedCardDetails.description}</Description>
         </Modal>
-      )}
+      ) : null}
 
-      {isNoteModalShown && (
+      {whichModalShown === "note" ? (
         <Modal
           title="Add Note"
-          onHide={() => onModalHide("note")}
-          buttons={confirmModalButtons}
+          onHide={() => setWhichModalShown(null)}
+          buttons={modalButtons}
         >
           <TextArea />
         </Modal>
-      )}
+      ) : null}
 
-      {isConfirmModalShown && (
+      {whichModalShown === "confirm" ? (
         <Modal
           title="Confirm"
-          onHide={() => onModalHide("confirm")}
-          buttons={confirmModalButtons}
+          onHide={() => setWhichModalShown(null)}
+          buttons={modalButtons}
         >
           <Description>Are you sure?</Description>
         </Modal>
-      )}
+      ) : null}
+
       <Screen>
         <Sidebar />
         <ContentWrapper>
@@ -144,7 +118,7 @@ const Menu = () => {
             {foodCards.map(({ uuid, ...cardProps }) => (
               <Card
                 key={uuid}
-                onInfoClicked={handleInfoClick}
+                onInfoClicked={handleCardInfoClick}
                 {...cardProps}
               ></Card>
             ))}
@@ -153,9 +127,9 @@ const Menu = () => {
         <ListWrapper>
           <OrderList
             items={[{ name: "Ahi", note: "kk" }]}
-            onAddNote={() => setIsNoteModalShown(true)}
+            onAddNote={() => setWhichModalShown("note")}
           ></OrderList>
-          <Button onClick={() => setIsConfirmModalShown(true)}>
+          <Button onClick={() => setWhichModalShown("confirm")}>
             Take an Order <Icon name={"angle-double-right"} />
           </Button>
         </ListWrapper>

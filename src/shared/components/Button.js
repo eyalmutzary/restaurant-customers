@@ -32,9 +32,10 @@ Button.Confirm = styled(Button)`
 
 Button.Warning = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.orange};
+  background-color: ${({ theme }) => theme.colors.red};
   &:hover {
-    background-color: ${({ theme, disabled }) => !disabled && theme.colors.red};
+    background-color: ${({ theme, disabled }) =>
+      !disabled && theme.colors.bordeaux};
   }
 `;
 
