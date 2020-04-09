@@ -43,6 +43,12 @@ const ToolbarWrapper = styled.div`
 
 const TopIcon = styled(BaseIcon)`
   margin: 5px 15px 0px 10px;
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.red};
+    transition: 0.4s;
+  }
 `;
 
 const NoteIcon = styled(BaseIcon)`
@@ -57,13 +63,20 @@ const RightSideWrapper = styled.div`
   align-items: center;
 `;
 
-const OrderItem = ({ listItemId, title, note, price, onAddNote, onRemoveItem }) => {
+const OrderItem = ({
+  listItemId,
+  title,
+  note,
+  price,
+  onAddNote,
+  onRemoveItem,
+}) => {
   return (
     <ItemWrapper>
       <ToolbarWrapper>
         <Title>{title}</Title>
         <RightSideWrapper>
-          <Price>{price}$</Price>
+          <Price>{price.toFixed(2)}$</Price>
           <IconsWrapper>
             <TopIcon name="edit" onClick={() => onAddNote()}></TopIcon>
             <TopIcon

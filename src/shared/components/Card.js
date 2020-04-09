@@ -47,6 +47,12 @@ const IconsWrapper = styled.div`
 
 const Icon = styled(BaseIcon)`
   margin-left: 20px;
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.red};
+    transition: 0.4s;
+  }
 `;
 
 const Card = ({
@@ -69,7 +75,10 @@ const Card = ({
           name={"question"}
           onClick={() => onInfoClicked({ title, image, price, description })}
         />
-        <Icon name={"plus"} onClick={() => onAddClicked({ productId ,title, price })} />
+        <Icon
+          name={"plus"}
+          onClick={() => onAddClicked({ productId, title, price })}
+        />
       </IconsWrapper>
     </ContentWrapper>
   </CardWrapper>

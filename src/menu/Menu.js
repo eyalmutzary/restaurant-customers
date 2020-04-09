@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import {
   Note as NoteModal,
   Details as DetailsModal,
+  Confirm as ConfirmModal,
 } from "./components/modals";
 
 import {
@@ -11,7 +12,6 @@ import {
   Card,
   Icon,
   Sidebar,
-  Modal,
   OrderList,
   Screen,
 } from "../shared/components";
@@ -67,15 +67,15 @@ const Menu = () => {
   }, []);
 
   const handleAddItemClick = useCallback(
-    (itemInfo) => {
+    ({ productId, title, price }) => {
       const listItemId = uuidv4();
       setOrderListItems([
         ...orderListItems,
         {
-          productId: itemInfo.productId,
+          productId,
           listItemId: listItemId,
-          title: itemInfo.title,
-          price: itemInfo.price,
+          title,
+          price: Number(price),
           note: "",
         },
       ]);
@@ -93,30 +93,47 @@ const Menu = () => {
     [orderListItems]
   );
 
+  const handleAddNote = useCallback(
+    (noteInfo) => {
+      const newState = [...orderListItems];
+      newState.find(
+        (item) => item.listItemId === selectedOrderItemId
+      ).note = noteInfo;
+      setOrderListItems(newState);
+      setWhichModalShown(null);
+      setSelectedOrderItemId(null);
+    },
+    [selectedOrderItemId, orderListItems]
+  );
+
   return (
     <MenuWrapper>
       {whichModalShown === modalTypes.DETAILS && (
         <DetailsModal
           selectedCard={selectedCard}
           onHide={() => setWhichModalShown(null)}
+          onAddItem={() => handleAddItemClick(selectedCard)}
         />
       )}
 
       {whichModalShown === modalTypes.NOTE && (
         <NoteModal
           title="Add Note"
+          initValue={
+            orderListItems.find(
+              (item) => item.listItemId === selectedOrderItemId
+            ).note
+          }
           onHide={() => setWhichModalShown(null)}
-          onConfirm={(noteInfo) => {
-            setWhichModalShown(null);
-            console.log(noteInfo);
-            console.log(selectedOrderItemId);
-            setSelectedOrderItemId(null);
-          }}
+          onConfirm={(noteInfo) => handleAddNote(noteInfo)}
         />
       )}
 
       {whichModalShown === modalTypes.CONFIRM && (
-        <Modal onHide={() => setWhichModalShown(null)} />
+        <ConfirmModal
+          description="Are you sure you want to send the order?"
+          onHide={() => setWhichModalShown(null)}
+        />
       )}
 
       <Screen>
@@ -127,6 +144,7 @@ const Menu = () => {
             {foodCards.map(({ productId, ...cardProps }) => (
               <Card
                 key={productId}
+                productId={productId}
                 onInfoClicked={handleCardInfoClick}
                 onAddClicked={handleAddItemClick}
                 {...cardProps}
@@ -143,7 +161,10 @@ const Menu = () => {
             }}
             onRemoveItem={(listItemId) => handleRemoveItem(listItemId)}
           ></OrderList>
-          <Button onClick={() => setWhichModalShown(modalTypes.CONFIRM)}>
+          <Button
+            disabled={orderListItems.length == 0}
+            onClick={() => setWhichModalShown(modalTypes.CONFIRM)}
+          >
             Take an Order <Icon name={"angle-double-right"} />
           </Button>
         </ListWrapper>

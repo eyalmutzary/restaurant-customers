@@ -9,25 +9,27 @@ const Description = styled.div`
   letter-spacing: 2px;
 `;
 
-const Details = ({ onHide, selectedCard: { image, title, description } }) => {
-  const differentSetOfButtons = useMemo(
+const Details = ({
+  onHide,
+  onAddItem,
+  selectedCard: { image, title, description },
+}) => {
+  const setOfButtons = useMemo(
     () => [
       { text: "Close", onClick: onHide },
       {
-        text: "Confirm",
-        onClick: onHide,
+        text: "Add",
+        onClick: () => {
+          onAddItem();
+          onHide();
+        },
       },
     ],
-    [onHide]
+    [onHide, onAddItem]
   );
 
   return (
-    <Modal
-      image={image}
-      title={title}
-      onHide={onHide}
-      buttons={differentSetOfButtons}
-    >
+    <Modal image={image} title={title} onHide={onHide} buttons={setOfButtons}>
       <Description>{description}</Description>
     </Modal>
   );

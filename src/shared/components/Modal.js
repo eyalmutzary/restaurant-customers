@@ -80,6 +80,7 @@ const BottomText = styled.div`
   font-weight: bold;
 
   &:hover {
+    cursor: pointer;
     background-color: ${({ theme }) => theme.colors.red};
     transition: 0.4s;
   }
