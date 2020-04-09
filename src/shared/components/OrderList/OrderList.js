@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 import OrderItem from "./OrderItem";
 
@@ -46,8 +46,9 @@ const OrderItemsWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-const OrderList = ({ items, price, onAddNote, onRemoveItem }) => {
+const OrderList = ({ items, onAddNote, onRemoveItem }) => {
   const isItemsEmpty = !items || items.length === 0;
+  // const price = useMemo(() => sumBy)
 
   return (
     <OrderListWrapper>
@@ -62,19 +63,19 @@ const OrderList = ({ items, price, onAddNote, onRemoveItem }) => {
                 title={title}
                 note={note}
                 price={price}
-                onAddNote={onAddNote}
+                onAddNote={() => onAddNote(listItemId)}
                 onRemoveItem={onRemoveItem}
-              ></OrderItem>
+              />
             );
           })
         ) : (
           <Text.Empty>List is empty.</Text.Empty>
         )}
       </OrderItemsWrapper>
-      <TotalPriceWrapper>
+      {/* <TotalPriceWrapper>
         <Text>Total Price:</Text>
         <Text>{price.toFixed(2)}$</Text>
-      </TotalPriceWrapper>
+      </TotalPriceWrapper> */}
     </OrderListWrapper>
   );
 };

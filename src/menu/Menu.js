@@ -1,6 +1,10 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import {
+  Note as NoteModal,
+  Details as DetailsModal,
+} from "./components/modals";
 
 import {
   Button as BaseButton,
@@ -47,44 +51,19 @@ const Button = styled(BaseButton.Warning)`
   justify-content: space-evenly;
 `;
 
-const Description = styled.p`
-  padding: 20px;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 2px;
-`;
-
-const TextArea = styled.textarea`
-  height: 15vh;
-  margin: 30px 20px 30px 20px;
-  width: 90%;
-`;
-
 const MenuWrapper = styled.div``;
 
 const modalTypes = { DETAILS: "DETAILS", CONFIRM: "CONFIRM", NOTE: "NOTE" };
 
 const Menu = () => {
   const [whichModalShown, setWhichModalShown] = useState();
-  const [selectedCardDetails, setSelectedCardDetails] = useState();
+  const [selectedCard, setSelectedCard] = useState();
+  const [selectedOrderItemId, setSelectedOrderItemId] = useState();
   const [orderListItems, setOrderListItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-
-  useEffect(() => {
-    calcOrderSum();
-  }, [orderListItems]);
-
-  const modalButtons = useMemo(
-    () => [
-      { text: "Close", onClick: () => setWhichModalShown() },
-      { text: "Confirm", type: "Confirm" },
-    ],
-    []
-  );
 
   const handleCardInfoClick = useCallback((cardInfo) => {
     setWhichModalShown(modalTypes.DETAILS);
-    setSelectedCardDetails(cardInfo);
+    setSelectedCard(cardInfo);
   }, []);
 
   const handleAddItemClick = useCallback(
@@ -114,45 +93,30 @@ const Menu = () => {
     [orderListItems]
   );
 
-  const calcOrderSum = useCallback(() => {
-    let sum = 0;
-    orderListItems.map((item) => {
-      sum += Number(item.price);
-    });
-    setTotalPrice(sum);
-  }, [orderListItems]);
-
   return (
     <MenuWrapper>
       {whichModalShown === modalTypes.DETAILS && (
-        <Modal
-          title={selectedCardDetails.title}
-          image={selectedCardDetails.image}
+        <DetailsModal
+          selectedCard={selectedCard}
           onHide={() => setWhichModalShown(null)}
-          buttons={modalButtons}
-        >
-          <Description>{selectedCardDetails.description}</Description>
-        </Modal>
+        />
       )}
 
       {whichModalShown === modalTypes.NOTE && (
-        <Modal
+        <NoteModal
           title="Add Note"
           onHide={() => setWhichModalShown(null)}
-          buttons={modalButtons}
-        >
-          <TextArea />
-        </Modal>
+          onConfirm={(noteInfo) => {
+            setWhichModalShown(null);
+            console.log(noteInfo);
+            console.log(selectedOrderItemId);
+            setSelectedOrderItemId(null);
+          }}
+        />
       )}
 
       {whichModalShown === modalTypes.CONFIRM && (
-        <Modal
-          title="Confirm"
-          onHide={() => setWhichModalShown(null)}
-          buttons={modalButtons}
-        >
-          <Description>Are you sure?</Description>
-        </Modal>
+        <Modal onHide={() => setWhichModalShown(null)} />
       )}
 
       <Screen>
@@ -166,15 +130,17 @@ const Menu = () => {
                 onInfoClicked={handleCardInfoClick}
                 onAddClicked={handleAddItemClick}
                 {...cardProps}
-              ></Card>
+              />
             ))}
           </CardsWrapper>
         </ContentWrapper>
         <ListWrapper>
           <OrderList
             items={orderListItems}
-            price={totalPrice}
-            onAddNote={(itemId) => setWhichModalShown(modalTypes.NOTE)}
+            onAddNote={(listItemId) => {
+              setWhichModalShown(modalTypes.NOTE);
+              setSelectedOrderItemId(listItemId);
+            }}
             onRemoveItem={(listItemId) => handleRemoveItem(listItemId)}
           ></OrderList>
           <Button onClick={() => setWhichModalShown(modalTypes.CONFIRM)}>
