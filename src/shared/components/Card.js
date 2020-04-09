@@ -24,6 +24,7 @@ const Image = styled.img`
 const Title = styled.h4`
   font-size: 20px;
   text-align: center;
+  height: 30px;
   margin: 10px 0px 10px 0px;
   padding: 0px 8px 0px 8px;
 `;
@@ -48,21 +49,27 @@ const Icon = styled(BaseIcon)`
   margin-left: 20px;
 `;
 
-const Card = ({ image, title, price, onInfoClicked, onAddClicked, description, ...rest }) => (
+const Card = ({
+  productId,
+  image,
+  title,
+  price,
+  onInfoClicked,
+  onAddClicked,
+  description,
+  ...rest
+}) => (
   <CardWrapper>
     {image && <Image src={image} alt=""></Image>}
     <Title>{title}</Title>
     <ContentWrapper>
-      <Price>{price.toFixed(2)}$</Price>
+      <Price>{price}$</Price>
       <IconsWrapper>
         <Icon
           name={"question"}
           onClick={() => onInfoClicked({ title, image, price, description })}
         />
-        <Icon
-          name={"plus"}
-          onClick={() => onAddClicked({ title })}
-        />
+        <Icon name={"plus"} onClick={() => onAddClicked({ productId ,title, price })} />
       </IconsWrapper>
     </ContentWrapper>
   </CardWrapper>

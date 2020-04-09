@@ -46,7 +46,7 @@ const OrderItemsWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-const OrderList = ({ items, price, onAddNote }) => {
+const OrderList = ({ items, price, onAddNote, onRemoveItem }) => {
   const isItemsEmpty = !items || items.length === 0;
 
   return (
@@ -54,20 +54,26 @@ const OrderList = ({ items, price, onAddNote }) => {
       <Title>Order List:</Title>
       <OrderItemsWrapper>
         {!isItemsEmpty ? (
-          items.map(({ title, note }) => (
-            <OrderItem
-              title={title}
-              note={note}
-              onAddNote={onAddNote}
-            ></OrderItem>
-          ))
+          items.map(({ listItemId, title, note, price }) => {
+            return (
+              <OrderItem
+                key={listItemId}
+                listItemId={listItemId}
+                title={title}
+                note={note}
+                price={price}
+                onAddNote={onAddNote}
+                onRemoveItem={onRemoveItem}
+              ></OrderItem>
+            );
+          })
         ) : (
           <Text.Empty>List is empty.</Text.Empty>
         )}
       </OrderItemsWrapper>
       <TotalPriceWrapper>
         <Text>Total Price:</Text>
-        <Text>{!price && "0.00$"}</Text>
+        <Text>{price.toFixed(2)}$</Text>
       </TotalPriceWrapper>
     </OrderListWrapper>
   );

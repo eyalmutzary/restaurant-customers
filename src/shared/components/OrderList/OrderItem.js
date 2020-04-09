@@ -15,12 +15,14 @@ const ItemWrapper = styled.div`
 const IconsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  color: ${({ theme }) => theme.colors.gray};
-  font-size: 16px;
 `;
 
 const Title = styled.div`
   color: ${({ theme }) => theme.colors.darkGray};
+`;
+
+const Price = styled.div`
+  flex: 1;
 `;
 
 const NoteWrapper = styled.div`
@@ -40,29 +42,45 @@ const ToolbarWrapper = styled.div`
 `;
 
 const TopIcon = styled(BaseIcon)`
-  margin-right: 15px;
+  margin: 5px 15px 0px 10px;
 `;
 
 const NoteIcon = styled(BaseIcon)`
   margin-right: 10px;
 `;
 
-const OrderItem = ({ title, note, onAddNote }) => (
-  <ItemWrapper>
-    <ToolbarWrapper>
-      <Title>{title}</Title>
-      <IconsWrapper>
-        <TopIcon name="edit" onClick={onAddNote}></TopIcon>
-        <TopIcon name="times"></TopIcon>
-      </IconsWrapper>
-    </ToolbarWrapper>
-    {note && (
-      <NoteWrapper>
-        <NoteIcon name="star-of-life"></NoteIcon>
-        <Note>{note}</Note>
-      </NoteWrapper>
-    )}
-  </ItemWrapper>
-);
+const RightSideWrapper = styled.div`
+  color: ${({ theme }) => theme.colors.gray};
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const OrderItem = ({ listItemId, title, note, price, onAddNote, onRemoveItem }) => {
+  return (
+    <ItemWrapper>
+      <ToolbarWrapper>
+        <Title>{title}</Title>
+        <RightSideWrapper>
+          <Price>{price}$</Price>
+          <IconsWrapper>
+            <TopIcon name="edit" onClick={() => onAddNote()}></TopIcon>
+            <TopIcon
+              name="times"
+              onClick={() => onRemoveItem(listItemId)}
+            ></TopIcon>
+          </IconsWrapper>
+        </RightSideWrapper>
+      </ToolbarWrapper>
+      {note && (
+        <NoteWrapper>
+          <NoteIcon name="star-of-life"></NoteIcon>
+          <Note>{note}</Note>
+        </NoteWrapper>
+      )}
+    </ItemWrapper>
+  );
+};
 
 export default OrderItem;

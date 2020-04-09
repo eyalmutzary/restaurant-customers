@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import BaseButton from "./Button";
 import BaseIcon from "./Icon";
 
 const Backdrop = styled.div`
@@ -101,7 +100,9 @@ const Modal = ({ title, image, children, onHide, buttons }) => {
         {buttons && (
           <BottomWrapper>
             {buttons.map(({ text, onClick }) => (
-              <BottomText onClick={onClick}>{text}</BottomText>
+              <BottomText key={text} onClick={onClick}>
+                {text}
+              </BottomText>
             ))}
           </BottomWrapper>
         )}
