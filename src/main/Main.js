@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { backgroundImage } from "../shared/assets/images";
 import {
   Button as BaseButton,
   Screen as BaseScreen,
@@ -8,6 +9,8 @@ import {
 const Screen = styled(BaseScreen)`
   justify-content: space-around;
   padding-top: 100px;
+  background-image: url(${backgroundImage});
+  background-size: cover;
 `;
 
 const LogoWrapper = styled.div`
