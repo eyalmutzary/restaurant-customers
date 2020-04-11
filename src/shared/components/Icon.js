@@ -18,6 +18,7 @@ import {
   faEdit,
   faTimes,
   faStarOfLife,
+  faAngleDoubleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -35,7 +36,8 @@ library.add(
   faStar,
   faEdit,
   faTimes,
-  faStarOfLife
+  faStarOfLife,
+  faAngleDoubleRight
 );
 
 const IconWrapper = styled.div``;

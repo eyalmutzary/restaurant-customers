@@ -1,44 +1,42 @@
 import React from "react";
 import styled from "styled-components";
 import BaseIcon from "./Icon";
-import BaseButton from "./Button";
-// import ItemsList from "./ItemsList";
 
 const Backdrop = styled.div`
   background: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  width: 100%;
   z-index: 10;
   display: flex;
-  justify-content: center; /*centers items on the line (the x-axis by default)*/
-  align-items: flex-start; /*centers items on the cross-axis (y by default)*/
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
 `;
 
 const ModalWrapper = styled.div`
+  position: relative;
   z-index: 11;
-  width: 45vw;
-  max-height: 90vh;
-  background-color: ${({ theme }) => theme.colors.silver};
-  border-radius: 7px;
-  margin-top: 30px;
-  color: ${({ theme }) => theme.colors.darkGray};
+  width: 500px;
+  background-color: ${({ theme }) => theme.colors.white};
+  border-radius: 3px;
+  color: ${({ theme }) => theme.colors.black};
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   font-size: 20px;
 `;
 
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  border-bottom: solid 1px ${({ theme }) => theme.colors.gray};
-  margin: 10px;
-`;
-
 const Icon = styled(BaseIcon)`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 0px 5px 0px 5px;
+  border-radius: 3px;
+  background-color: ${({ theme }) => theme.colors.white};
+
   &:hover {
-    color: ${({ theme }) => theme.colors.black};
+    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.black};
     transition: 0.4s;
-    cursor: pointer;
   }
 `;
 
@@ -47,70 +45,71 @@ const Image = styled.img`
   object-fit: cover;
   width: 100%;
   height: 40vh;
-  border-radius: 7px;
+  border-radius: 3px;
 `;
 
-const ContentWrapper = styled.div`
-  padding: 10px;
+const TitleWrapper = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  font-size: 26px;
+
+  &:after {
+    content: "";
+    display: block;
+    margin: 0 auto;
+    width: 60px;
+    padding-top: 40px;
+    border-bottom: 6px solid ${({ theme }) => theme.colors.red};
+  }
 `;
 
-const Name = styled.h4`
-  margin: 10px;
-`;
+const ContentWrapper = styled.div``;
 
-const Description = styled.p`
-  margin: 10px;
-  font-size: 16px;
-`;
-
-const ButtonsWrapper = styled.div`
+const BottomWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-  padding: 20px;
-  border-top: solid 1px ${({ theme }) => theme.colors.gray};
-  margin: 10px;
+  justify-content: space-evenly;
+  background-color: ${({ theme }) => theme.colors.black};
+  border-top: solid 2px ${({ theme }) => theme.colors.red};
 `;
 
-const Button = styled(BaseButton)`
-  margin-right: 10px;
+const BottomText = styled.div`
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: bold;
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${({ theme }) => theme.colors.red};
+    transition: 0.4s;
+  }
 `;
 
-const TextArea = styled.textarea`
-  height: 15vh;
-  margin: 10px 20px 10px 20px;
-  width: 90%;
-`;
+const Modal = ({ title, image, children, onHide, buttons }) => {
+  const handleModalClick = (event) => {
+    event.stopPropagation();
+  };
 
-const Modal = ({
-  title,
-  image,
-  name,
-  description,
-  textArea,
-  isConfirm,
-  items,
-}) => (
-  <Backdrop>
-    <ModalWrapper>
-      {title && (
-        <Title>
-          {title}
-          <Icon name={"times"} />
-        </Title>
-      )}
-      {image && <Image src={image} />}
-      <ContentWrapper>
-        {name && <Name>{name}</Name>}
-        {description && <Description>{description}</Description>}
-        {textArea && <TextArea />}
-        {/* {items && <ItemsList items={items}/>} */}
-      </ContentWrapper>
-      <ButtonsWrapper>
-        <Button>Close</Button>
-        {isConfirm && <Button.Confirm>{isConfirm}</Button.Confirm>}
-      </ButtonsWrapper>
-    </ModalWrapper>
-  </Backdrop>
-);
+  return (
+    <Backdrop onClick={onHide}>
+      <ModalWrapper onClick={handleModalClick}>
+        <Icon name="times" onClick={onHide} />
+        {image && <Image src={image} />}
+        {title && <TitleWrapper>{title}</TitleWrapper>}
+        <ContentWrapper>{children}</ContentWrapper>
+        {buttons && (
+          <BottomWrapper>
+            {buttons.map(({ text, onClick }) => (
+              <BottomText key={text} onClick={onClick}>
+                {text}
+              </BottomText>
+            ))}
+          </BottomWrapper>
+        )}
+      </ModalWrapper>
+    </Backdrop>
+  );
+};
 
 export default Modal;

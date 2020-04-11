@@ -12,7 +12,9 @@ const Button = styled.button`
   border-radius: 5px;
   font-size: 14px;
   outline: none;
-  
+  display: flex;
+  justify-content: center;
+
   &:hover {
     background: ${({ theme }) => theme.colors.darkGray};
     color: ${({ theme }) => theme.colors.white};
@@ -30,10 +32,18 @@ Button.Confirm = styled(Button)`
 
 Button.Warning = styled(Button)`
   color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.orange};
+  background-color: ${({ theme }) => theme.colors.red};
   &:hover {
-    background-color: ${({ theme, disabled }) => !disabled && theme.colors.red};
+    background-color: ${({ theme, disabled }) =>
+      !disabled && theme.colors.bordeaux};
   }
+`;
+
+Button.Main = styled(Button)`
+  font-size: larger;
+  border: 3px solid ${({ theme }) => theme.colors.white};
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 1px rgb(90, 80, 80) inset;
 `;
 
 export default Button;

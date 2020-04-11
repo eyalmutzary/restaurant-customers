@@ -1,52 +1,86 @@
 import React from "react";
 import styled from "styled-components";
-import BaseButton from "./Button";
-import Icon from "./Icon";
+import BaseIcon from "./Icon";
 
 const CardWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.silver};
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.white};
   border: solid 1px ${({ theme }) => theme.colors.gray};
   color: ${({ theme }) => theme.colors.darkGray};
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-around;
-  padding: 5px;
-  margin: 5px;
+  width: 280px;
+  height: 300px;
+  margin: 15px 10px 10px 10px;
 `;
 
 const Image = styled.img`
-  padding: 0px;
-  height: 180px;
+  flex: 1;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 3px;
 `;
 
 const Title = styled.h4`
-  font-size: 22px;
+  font-size: 20px;
   text-align: center;
+  height: 30px;
   margin: 10px 0px 10px 0px;
+  padding: 0px 8px 0px 8px;
 `;
 
-const Button = styled(BaseButton)`
-  width: 60px;
+const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  margin: 10px;
 `;
 
-const Card = ({ image, title }) => (
+const Price = styled.div`
+  font-size: 18px;
+  flex: 2;
+`;
+
+const IconsWrapper = styled.div`
+  display: flex;
+`;
+
+const Icon = styled(BaseIcon)`
+  margin-left: 20px;
+
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.red};
+    transition: 0.4s;
+  }
+`;
+
+const Card = ({
+  productId,
+  image,
+  title,
+  price,
+  onInfoClicked,
+  onAddClicked,
+  description,
+  ...rest
+}) => (
   <CardWrapper>
     {image && <Image src={image} alt=""></Image>}
     <Title>{title}</Title>
-    <ButtonWrapper>
-      <Button>
-        <Icon name={"question"}></Icon>
-      </Button>
-      <Button>
-        <Icon name={"plus"}></Icon>
-      </Button>
-    </ButtonWrapper>
+    <ContentWrapper>
+      <Price>{price}$</Price>
+      <IconsWrapper>
+        <Icon
+          name={"question"}
+          onClick={() => onInfoClicked({ title, image, price, description })}
+        />
+        <Icon
+          name={"plus"}
+          onClick={() => onAddClicked({ productId, title, price })}
+        />
+      </IconsWrapper>
+    </ContentWrapper>
   </CardWrapper>
 );
 
