@@ -8,8 +8,8 @@ const TextArea = styled.textarea`
   width: 90%;
 `;
 
-const Note = ({ onHide, onConfirm, initValue }) => {
-  const [note, setNote] = useState(initValue);
+const Note = ({ onHide, onConfirm, value }) => {
+  const [note, setNote] = useState(value);
 
   const differentSetOfButtons = useMemo(
     () => [

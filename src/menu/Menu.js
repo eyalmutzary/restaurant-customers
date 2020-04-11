@@ -119,9 +119,9 @@ const Menu = () => {
       {whichModalShown === modalTypes.NOTE && (
         <NoteModal
           title="Add Note"
-          initValue={
+          value={
             orderListItems.find(
-              (item) => item.listItemId === selectedOrderItemId
+              ({ listItemId }) => listItemId === selectedOrderItemId
             ).note
           }
           onHide={() => setWhichModalShown(null)}
