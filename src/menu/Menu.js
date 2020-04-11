@@ -84,9 +84,9 @@ const Menu = () => {
   );
 
   const handleRemoveItem = useCallback(
-    (listItemId) => {
+    (idToRemove) => {
       const removeItem = orderListItems.filter(
-        (listItem) => listItem.listItemId !== listItemId
+        ({ listItemId }) => listItemId !== idToRemove
       );
       setOrderListItems(removeItem);
     },

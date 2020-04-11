@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import OrderItem from "./OrderItem";
-import _ from "lodash";
+import { sumBy } from "lodash";
 
 const OrderListWrapper = styled.div`
   display: flex;
@@ -49,9 +49,7 @@ const OrderItemsWrapper = styled.div`
 
 const OrderList = ({ items, onAddNote, onRemoveItem }) => {
   const isItemsEmpty = !items || items.length === 0;
-  const totalPrice = useMemo(() => {
-    return _.sumBy(items, "price");
-  }, [items]);
+  const totalPrice = useMemo(() => sumBy(items, "price"), [items]);
 
   return (
     <OrderListWrapper>

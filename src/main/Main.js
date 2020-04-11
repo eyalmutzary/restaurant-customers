@@ -34,7 +34,7 @@ const ButtonWrapper = styled.div`
   padding-right: 50px;
 `;
 
-const Button = styled(BaseButton.Main)`
+const BorderedButton = styled(BaseButton.Main)`
   margin: 10px;
   width: 180px;
   height: 55px;
@@ -47,18 +47,12 @@ const Main = ({ history }) => (
       <Subtitle>Probably the best serving app in the world.</Subtitle>
     </LogoWrapper>
     <ButtonWrapper>
-      <Button
-        onClick={() => {
-          console.log("clicked");
-          console.log(history);
-          history.push("/menu");
-        }}
-      >
+      <BorderedButton onClick={() => history.push("/menu")}>
         Menu
-      </Button>
-      <Button>My Table</Button>
-      <Button>Call a Waiter</Button>
-      <Button>Check, Please</Button>
+      </BorderedButton>
+      <BorderedButton>My Table</BorderedButton>
+      <BorderedButton>Call a Waiter</BorderedButton>
+      <BorderedButton>Check, Please</BorderedButton>
     </ButtonWrapper>
   </Screen>
 );
