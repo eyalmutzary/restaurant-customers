@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import {
   Note as NoteModal,
@@ -14,6 +15,7 @@ import {
   Sidebar,
   OrderList,
   Screen,
+  LoadingSpinner,
 } from "../shared/components";
 import { foodCards } from "../shared/constants";
 const ContentWrapper = styled.div`
@@ -60,6 +62,41 @@ const Menu = () => {
   const [selectedCard, setSelectedCard] = useState();
   const [selectedOrderItemId, setSelectedOrderItemId] = useState();
   const [orderListItems, setOrderListItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState();
+
+  const sidebarButtons = {
+    top: [{ name: "arrow-left", key: "arrow-left" }],
+    center: [
+      { name: "hamburger", key: "hamburger" },
+      { name: "fish", key: "fish" },
+      { name: "pizza-slice", key: "pizza-slice" },
+      { name: "seedling", key: "seedling" },
+      { name: "wine-glass-alt", key: "wine-glass-alt" },
+    ],
+    bottom: [
+      { name: "ice-cream", key: "ice-cream" },
+      { name: "mug-hot", key: "mug-hot" },
+    ],
+  };
+
+  const fetchProducts = useCallback(() => {
+    setIsLoading(true);
+    axios
+      .get("/products")
+      .then(({ data }) => {
+        setProducts(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .then(() => setIsLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleCardInfoClick = useCallback((cardInfo) => {
     setWhichModalShown(modalTypes.DETAILS);
@@ -67,15 +104,14 @@ const Menu = () => {
   }, []);
 
   const handleAddItemClick = useCallback(
-    ({ productId, title, price }) => {
+    ({ productId, name, price }) => {
       const listItemId = uuidv4();
       setOrderListItems([
         ...orderListItems,
         {
           productId,
           listItemId: listItemId,
-          title,
-          price: Number(price),
+          Product: { name: name, price: Number(price) },
           note: "",
         },
       ]);
@@ -137,19 +173,26 @@ const Menu = () => {
       )}
 
       <Screen>
-        <Sidebar />
+        <Sidebar
+          top={sidebarButtons.top}
+          center={sidebarButtons.center}
+          bottom={sidebarButtons.bottom}
+        />
         <ContentWrapper>
           <Title>Hamburgers</Title>
+          {isLoading && <LoadingSpinner />}
+
           <CardsWrapper>
-            {foodCards.map(({ productId, ...cardProps }) => (
-              <Card
-                key={productId}
-                productId={productId}
-                onInfoClicked={handleCardInfoClick}
-                onAddClicked={handleAddItemClick}
-                {...cardProps}
-              />
-            ))}
+            {products &&
+              products.map(({ id, ...cardProps }) => (
+                <Card
+                  key={id}
+                  productId={id}
+                  onInfoClicked={handleCardInfoClick}
+                  onAddClicked={handleAddItemClick}
+                  {...cardProps}
+                />
+              ))}
           </CardsWrapper>
         </ContentWrapper>
         <ListWrapper>

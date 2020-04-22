@@ -12,7 +12,7 @@ const Description = styled.div`
 const Details = ({
   onHide,
   onAddItem,
-  selectedCard: { image, title, description },
+  selectedCard: { imageUrl, name, description },
 }) => {
   const setOfButtons = useMemo(
     () => [
@@ -29,7 +29,7 @@ const Details = ({
   );
 
   return (
-    <Modal image={image} title={title} onHide={onHide} buttons={setOfButtons}>
+    <Modal image={imageUrl} title={name} onHide={onHide} buttons={setOfButtons}>
       <Description>{description}</Description>
     </Modal>
   );

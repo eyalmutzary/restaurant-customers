@@ -19,6 +19,15 @@ import {
   faTimes,
   faStarOfLife,
   faAngleDoubleRight,
+  faEllipsisH,
+  faSignOutAlt,
+  faSyncAlt,
+  faCog,
+  faExclamationCircle,
+  faCreditCard,
+  faReceipt,
+  faListUl,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -37,22 +46,37 @@ library.add(
   faEdit,
   faTimes,
   faStarOfLife,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faEllipsisH,
+  faSignOutAlt,
+  faSyncAlt,
+  faCog,
+  faExclamationCircle,
+  faCreditCard,
+  faReceipt,
+  faListUl,
+  faCheck
 );
 
 const IconWrapper = styled.div``;
 
-// const IconCSS = styled(Icon)`
-//   cursor: pointer;
-//   &:hover {
-//     color: ${({ theme }) => theme.colors.darkGray};
-//     transition: 0.4s;
-//   }
-// `;
+IconWrapper.withHover = styled.div`
+  &:hover {
+    transition: ease-out 0.4s;
+    color: ${({ theme }) => theme.colors.red};
+    cursor: pointer;
+  }
+`;
 
-const Icon = ({ name, ...rest }) => (
+const Icon = ({ name, hover = true, ...rest }) => (
   <IconWrapper {...rest}>
-    <FontAwesomeIcon icon={name} />
+    {hover ? (
+      <IconWrapper.withHover>
+        <FontAwesomeIcon icon={name} />
+      </IconWrapper.withHover>
+    ) : (
+      <FontAwesomeIcon icon={name} />
+    )}
   </IconWrapper>
 );
 

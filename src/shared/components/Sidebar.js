@@ -4,7 +4,7 @@ import BaseIcon from "./Icon";
 import { useHistory } from "react-router-dom";
 
 const SidebarWarpper = styled.div`
-  width: 5vw;
+  width: 60px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -20,33 +20,29 @@ const Icon = styled(BaseIcon).attrs({ size: "large" })`
   font-size: 36px;
   padding: 10px 0px 10px 0px;
   color: ${({ theme }) => theme.colors.silver};
-  /* border-right: 2px solid ${({ theme }) => theme.colors.red}; */
-
-  &:hover {
-    transition: 0.4s;
-    color: ${({ theme }) => theme.colors.red};
-    cursor: pointer;
-  }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({ top, center, bottom }) => {
   const history = useHistory();
   return (
     <SidebarWarpper>
       <Wrapper>
-        <Icon name="arrow-left" onClick={() => history.goBack()}></Icon>
+        {top &&
+          top.map(({ name, ...rest }) => (
+            <Icon key={name} name={name} {...rest} />
+          ))}
       </Wrapper>
       <Wrapper>
-        <Icon name="star"></Icon>
-        <Icon name="hamburger"></Icon>
-        <Icon name="fish"></Icon>
-        <Icon name="pizza-slice"></Icon>
-        <Icon name="seedling"></Icon>
-        <Icon name="wine-glass-alt"></Icon>
+        {center &&
+          center.map(({ name, ...rest }) => (
+            <Icon key={name} name={name} {...rest} />
+          ))}
       </Wrapper>
       <Wrapper>
-        <Icon name="ice-cream"></Icon>
-        <Icon name="mug-hot"></Icon>
+        {bottom &&
+          bottom.map(({ name, ...rest }) => (
+            <Icon key={name} name={name} {...rest} />
+          ))}
       </Wrapper>
     </SidebarWarpper>
   );

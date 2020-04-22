@@ -18,6 +18,8 @@ const ModalWrapper = styled.div`
   position: relative;
   z-index: 11;
   width: 500px;
+  max-height: 90vh;
+  overflow: auto;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 3px;
   color: ${({ theme }) => theme.colors.black};
@@ -58,7 +60,7 @@ const TitleWrapper = styled.div`
     display: block;
     margin: 0 auto;
     width: 60px;
-    padding-top: 40px;
+    padding-top: 30px;
     border-bottom: 6px solid ${({ theme }) => theme.colors.red};
   }
 `;

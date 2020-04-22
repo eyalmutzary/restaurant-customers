@@ -7,8 +7,8 @@ import {
 } from "../shared/components";
 
 const Screen = styled(BaseScreen)`
-  justify-content: space-around;
-  padding-top: 100px;
+  flex-direction: column;
+  align-items: flex-end;
   background-image: url(${backgroundImage});
   background-size: cover;
 `;
@@ -18,20 +18,22 @@ const LogoWrapper = styled.div`
   flex-direction: column;
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
+  margin: 20px;
 `;
 
 const Title = styled.div`
-  font-size: 100px;
+  font-size: 50px;
 `;
 
 const Subtitle = styled.div`
-  font-size: 25px;
+  font-size: 14px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 50px;
+  padding: 80px;
+  flex: 1;
 `;
 
 const BorderedButton = styled(BaseButton.Main)`
@@ -42,10 +44,6 @@ const BorderedButton = styled(BaseButton.Main)`
 
 const Main = ({ history }) => (
   <Screen>
-    <LogoWrapper>
-      <Title>Well-Served</Title>
-      <Subtitle>Probably the best serving app in the world.</Subtitle>
-    </LogoWrapper>
     <ButtonWrapper>
       <BorderedButton onClick={() => history.push("/menu")}>
         Menu
@@ -54,6 +52,10 @@ const Main = ({ history }) => (
       <BorderedButton>Call a Waiter</BorderedButton>
       <BorderedButton>Check, Please</BorderedButton>
     </ButtonWrapper>
+    <LogoWrapper>
+      <Title>Well-Served</Title>
+      <Subtitle>Probably the best serving app in the world.</Subtitle>
+    </LogoWrapper>
   </Screen>
 );
 
