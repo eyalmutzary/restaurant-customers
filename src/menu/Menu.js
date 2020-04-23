@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
@@ -7,7 +7,6 @@ import {
   Details as DetailsModal,
   Confirm as ConfirmModal,
 } from "./components/modals";
-
 import {
   Button as BaseButton,
   Card,
@@ -17,7 +16,7 @@ import {
   Screen,
   LoadingSpinner,
 } from "../shared/components";
-import { foodCards } from "../shared/constants";
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,28 +56,66 @@ const MenuWrapper = styled.div``;
 
 const modalTypes = { DETAILS: "DETAILS", CONFIRM: "CONFIRM", NOTE: "NOTE" };
 
-const Menu = () => {
+const Menu = ({ history }) => {
   const [whichModalShown, setWhichModalShown] = useState();
   const [selectedCard, setSelectedCard] = useState();
   const [selectedOrderItemId, setSelectedOrderItemId] = useState();
   const [orderListItems, setOrderListItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState();
+  const [selectedCategory, setSelectedCategory] = useState("hamburgers");
 
-  const sidebarButtons = {
-    top: [{ name: "arrow-left", key: "arrow-left" }],
-    center: [
-      { name: "hamburger", key: "hamburger" },
-      { name: "fish", key: "fish" },
-      { name: "pizza-slice", key: "pizza-slice" },
-      { name: "seedling", key: "seedling" },
-      { name: "wine-glass-alt", key: "wine-glass-alt" },
-    ],
-    bottom: [
-      { name: "ice-cream", key: "ice-cream" },
-      { name: "mug-hot", key: "mug-hot" },
-    ],
-  };
+  const sidebarButtons = useMemo(
+    () => ({
+      top: [
+        {
+          name: "arrow-left",
+          key: "arrow-left",
+          onClick: () => history.goBack(),
+        },
+      ],
+      center: [
+        {
+          name: "hamburger",
+          key: "hamburger",
+          onClick: () => setSelectedCategory("hamburgers"),
+        },
+        {
+          name: "fish",
+          key: "fish",
+          onClick: () => setSelectedCategory("fish"),
+        },
+        {
+          name: "pizza-slice",
+          key: "pizza-slice",
+          onClick: () => setSelectedCategory("pizza"),
+        },
+        {
+          name: "seedling",
+          key: "seedling",
+          onClick: () => setSelectedCategory("salads"),
+        },
+        {
+          name: "wine-glass-alt",
+          key: "wine-glass-alt",
+          onClick: () => setSelectedCategory("beverages"),
+        },
+      ],
+      bottom: [
+        {
+          name: "ice-cream",
+          key: "ice-cream",
+          onClick: () => setSelectedCategory("desserts"),
+        },
+        {
+          name: "mug-hot",
+          key: "mug-hot",
+          onClick: () => setSelectedCategory("hot-drinks"),
+        },
+      ],
+    }),
+    [history]
+  );
 
   const fetchProducts = useCallback(() => {
     setIsLoading(true);
@@ -179,20 +216,22 @@ const Menu = () => {
           bottom={sidebarButtons.bottom}
         />
         <ContentWrapper>
-          <Title>Hamburgers</Title>
+          <Title>{selectedCategory}</Title>
           {isLoading && <LoadingSpinner />}
 
           <CardsWrapper>
             {products &&
-              products.map(({ id, ...cardProps }) => (
-                <Card
-                  key={id}
-                  productId={id}
-                  onInfoClicked={handleCardInfoClick}
-                  onAddClicked={handleAddItemClick}
-                  {...cardProps}
-                />
-              ))}
+              products.map(({ id, Category, inStock, ...cardProps }) => {
+                return selectedCategory === Category.name && inStock ? (
+                  <Card
+                    key={id}
+                    productId={id}
+                    onInfoClicked={handleCardInfoClick}
+                    onAddClicked={handleAddItemClick}
+                    {...cardProps}
+                  />
+                ) : null;
+              })}
           </CardsWrapper>
         </ContentWrapper>
         <ListWrapper>
@@ -205,7 +244,7 @@ const Menu = () => {
             onRemoveItem={(listItemId) => handleRemoveItem(listItemId)}
           ></OrderList>
           <Button
-            disabled={orderListItems.length == 0}
+            disabled={orderListItems.length === 0}
             onClick={() => setWhichModalShown(modalTypes.CONFIRM)}
           >
             Take an Order <Icon name={"angle-double-right"} />
