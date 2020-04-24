@@ -70,46 +70,38 @@ const Menu = ({ history }) => {
       top: [
         {
           name: "arrow-left",
-          key: "arrow-left",
           onClick: () => history.goBack(),
         },
       ],
       center: [
         {
           name: "hamburger",
-          key: "hamburger",
           onClick: () => setSelectedCategory("hamburgers"),
         },
         {
           name: "fish",
-          key: "fish",
           onClick: () => setSelectedCategory("fish"),
         },
         {
           name: "pizza-slice",
-          key: "pizza-slice",
           onClick: () => setSelectedCategory("pizza"),
         },
         {
           name: "seedling",
-          key: "seedling",
           onClick: () => setSelectedCategory("salads"),
         },
         {
           name: "wine-glass-alt",
-          key: "wine-glass-alt",
           onClick: () => setSelectedCategory("beverages"),
         },
       ],
       bottom: [
         {
           name: "ice-cream",
-          key: "ice-cream",
           onClick: () => setSelectedCategory("desserts"),
         },
         {
           name: "mug-hot",
-          key: "mug-hot",
           onClick: () => setSelectedCategory("hot-drinks"),
         },
       ],
@@ -117,18 +109,17 @@ const Menu = ({ history }) => {
     [history]
   );
 
-  const fetchProducts = useCallback(() => {
+  const fetchProducts = useCallback(async () => {
     setIsLoading(true);
-    axios
-      .get("/products")
-      .then(({ data }) => {
-        setProducts(data);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .then(() => setIsLoading(false));
+    try {
+      const res = await axios.get("/products");
+      setProducts(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   useEffect(() => {
