@@ -263,7 +263,7 @@ const Menu = ({ history }) => {
             onRemoveItem={(listItemId) => handleRemoveItem(listItemId)}
           ></OrderList>
           <Button
-            disabled={orderListItems.length === 0}
+            disabled={orderListItems.length === 0 || !authTableNum}
             onClick={() => setWhichModalShown(modalTypes.CONFIRM)}
           >
             Take an Order <Icon name={"angle-double-right"} />

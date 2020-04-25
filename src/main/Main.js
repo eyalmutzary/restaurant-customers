@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { backgroundImage } from "../shared/assets/images";
 import { AuthTableNumContext } from "../app";
-import { AuthModal } from "./components";
+import { AuthModal, ErrorModal } from "./components";
 import {
   Button as BaseButton,
   Screen as BaseScreen,
@@ -55,25 +56,65 @@ const AuthWrapper = styled.div`
 `;
 
 const AuthText = styled.div`
-  /* display: flex; */
   padding: 0px 10px 0px 10px;
 `;
 
+const modalTypes = { AUTH: "AUTH", ERROR: "ERROR" };
+
 const Main = ({ history }) => {
   const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [whichModalShown, setWhichModalShown] = useState();
+  const [isTableAvailable, setIsTableAvailable] = useState(false);
+
+  const checkTableAvailable = useCallback(async () => {
+    try {
+      const res = await axios.get("/customerTables?tableNum=" + authTableNum);
+      if (res.data.CustomerTableStatus.status === "closed") {
+        setIsTableAvailable(true);
+      } else {
+        console.log("Table closed");
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [authTableNum]);
+
+  useEffect(() => {
+    checkTableAvailable();
+  }, [checkTableAvailable]);
 
   return (
     <Screen>
-      {showAuthModal && <AuthModal onHide={() => setShowAuthModal(false)} />}
+      {whichModalShown === modalTypes.AUTH && (
+        <AuthModal onHide={() => setWhichModalShown(null)} />
+      )}
+
+      {whichModalShown === modalTypes.ERROR && (
+        <ErrorModal
+          description="Your table is not open. Please call the waiter."
+          onHide={() => setWhichModalShown(null)}
+        />
+      )}
 
       <ButtonWrapper>
-        <BorderedButton onClick={() => history.push("/menu")}>
+        <BorderedButton
+          disabled={!isTableAvailable}
+          onClick={() =>
+            isTableAvailable
+              ? history.push("/menu")
+              : setWhichModalShown(modalTypes.ERROR)
+          }
+        >
           Menu
         </BorderedButton>
-        <BorderedButton>My Table</BorderedButton>
-        <BorderedButton>Call a Waiter</BorderedButton>
-        <BorderedButton>Check, Please</BorderedButton>
+        <BorderedButton disabled={!isTableAvailable}>My Table</BorderedButton>
+        <BorderedButton disabled={!isTableAvailable}>
+          Call a Waiter
+        </BorderedButton>
+        <BorderedButton disabled={!isTableAvailable}>
+          Check, Please
+        </BorderedButton>
       </ButtonWrapper>
       <LogoWrapper>
         <Title>Well-Served</Title>
@@ -81,7 +122,10 @@ const Main = ({ history }) => {
       </LogoWrapper>
       <AuthWrapper>
         <AuthText>Table Number: {authTableNum}</AuthText>
-        <Icon name="sign-out-alt" onClick={() => setShowAuthModal(true)} />
+        <Icon
+          name="sign-out-alt"
+          onClick={() => setWhichModalShown(modalTypes.AUTH)}
+        />
       </AuthWrapper>
     </Screen>
   );

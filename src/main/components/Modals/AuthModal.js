@@ -6,8 +6,8 @@ import React, {
   useRef,
 } from "react";
 import styled from "styled-components";
-import { Modal, Input, Button, LoadingSpinner } from "../../shared/components";
-import { AuthTableNumContext } from "../../app";
+import { Modal, Input, Button, LoadingSpinner } from "../../../shared/components";
+import { AuthTableNumContext } from "../../../app";
 import axios from "axios";
 
 const FormWrapper = styled.form`
@@ -88,6 +88,7 @@ const AuthModal = ({ onHide }) => {
   const onSelectTableNum = useCallback(
     (tableNum) => {
       setAuthTableNum(tableNum);
+      localStorage.setItem("tableNum", tableNum);
       onHide();
     },
     [setAuthTableNum, onHide]
