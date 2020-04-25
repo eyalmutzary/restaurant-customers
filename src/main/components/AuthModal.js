@@ -58,7 +58,7 @@ const AuthModal = ({ onHide }) => {
     setIsLoading(true);
     try {
       setErrorMessage();
-      const res = await axios.get("/customerTables?status=ordering"); // change to status empty
+      const res = await axios.get("/customerTables?status=ordering");
       let numsArr = [];
       res.data.forEach(({ tableNum }) => numsArr.push(tableNum));
       setTableNums(numsArr);

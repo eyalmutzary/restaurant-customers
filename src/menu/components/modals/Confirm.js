@@ -9,24 +9,23 @@ const Description = styled.div`
   letter-spacing: 2px;
 `;
 
-const Confirm = ({ onHide, description }) => {
+const Confirm = ({ onHide, onConfirm, description }) => {
   const setOfButtons = useMemo(
     () => [
       { text: "Close", onClick: onHide },
       {
         text: "Confirm",
-        onClick: onHide,
+        onClick: () => {
+          onConfirm();
+          onHide();
+        },
       },
     ],
-    [onHide]
+    [onHide, onConfirm]
   );
 
   return (
-    <Modal
-      title="Please Confirm"
-      onHide={onHide}
-      buttons={setOfButtons}
-    >
+    <Modal title="Please Confirm" onHide={onHide} buttons={setOfButtons}>
       <Description>{description}</Description>
     </Modal>
   );

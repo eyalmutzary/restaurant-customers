@@ -1,7 +1,14 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useContext,
+} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { AuthTableNumContext } from "../app";
 import {
   Note as NoteModal,
   Details as DetailsModal,
@@ -57,6 +64,7 @@ const MenuWrapper = styled.div``;
 const modalTypes = { DETAILS: "DETAILS", CONFIRM: "CONFIRM", NOTE: "NOTE" };
 
 const Menu = ({ history }) => {
+  const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
   const [whichModalShown, setWhichModalShown] = useState();
   const [selectedCard, setSelectedCard] = useState();
   const [selectedOrderItemId, setSelectedOrderItemId] = useState();
@@ -170,6 +178,25 @@ const Menu = ({ history }) => {
     [selectedOrderItemId, orderListItems]
   );
 
+  const createNewOrder = useCallback(async () => {
+    console.log(orderListItems);
+    console.log(authTableNum);
+    console.log({
+      tableNum: authTableNum,
+      orderedProducts: [...orderListItems],
+    });
+    try {
+      const res = await axios.post("/orders", {
+        tableNum: authTableNum,
+        orderedProducts: [...orderListItems],
+      });
+      setOrderListItems([]);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [orderListItems, authTableNum]);
+
   return (
     <MenuWrapper>
       {whichModalShown === modalTypes.DETAILS && (
@@ -197,6 +224,7 @@ const Menu = ({ history }) => {
         <ConfirmModal
           description="Are you sure you want to send the order?"
           onHide={() => setWhichModalShown(null)}
+          onConfirm={() => createNewOrder()}
         />
       )}
 
