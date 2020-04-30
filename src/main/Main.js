@@ -3,7 +3,11 @@ import styled from "styled-components";
 import axios from "axios";
 import { backgroundImage } from "../shared/assets/images";
 import { AuthTableNumContext } from "../app";
-import { AuthModal, ErrorModal } from "./components";
+import {
+  AuthModal,
+  ErrorModal,
+  TableDetails as TableDetailsModal,
+} from "./components";
 import {
   Button as BaseButton,
   Screen as BaseScreen,
@@ -59,7 +63,11 @@ const AuthText = styled.div`
   padding: 0px 10px 0px 10px;
 `;
 
-const modalTypes = { AUTH: "AUTH", ERROR: "ERROR" };
+const modalTypes = {
+  AUTH: "AUTH",
+  ERROR: "ERROR",
+  TABLE_DETAILS: "TABLE_DETAILS",
+};
 
 const Main = ({ history }) => {
   const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
@@ -69,10 +77,11 @@ const Main = ({ history }) => {
   const checkTableAvailable = useCallback(async () => {
     try {
       const res = await axios.get("/customerTables?tableNum=" + authTableNum);
-      if (res.data.CustomerTableStatus.status === "closed") {
+      if (res.data.CustomerTableStatus.status !== "closed") {
         setIsTableAvailable(true);
       } else {
         console.log("Table closed");
+        console.log(res.data.CustomerTableStatus.status);
       }
       console.log(res.data);
     } catch (error) {
@@ -97,6 +106,10 @@ const Main = ({ history }) => {
         />
       )}
 
+      {whichModalShown === modalTypes.TABLE_DETAILS && (
+        <TableDetailsModal onHide={() => setWhichModalShown(null)} />
+      )}
+
       <ButtonWrapper>
         <BorderedButton
           disabled={!isTableAvailable}
@@ -108,7 +121,12 @@ const Main = ({ history }) => {
         >
           Menu
         </BorderedButton>
-        <BorderedButton disabled={!isTableAvailable}>My Table</BorderedButton>
+        <BorderedButton
+          disabled={!isTableAvailable}
+          onClick={() => setWhichModalShown(modalTypes.TABLE_DETAILS)}
+        >
+          My Table
+        </BorderedButton>
         <BorderedButton disabled={!isTableAvailable}>
           Call a Waiter
         </BorderedButton>

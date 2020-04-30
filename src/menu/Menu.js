@@ -13,6 +13,7 @@ import {
   Note as NoteModal,
   Details as DetailsModal,
   Confirm as ConfirmModal,
+  Success as SuccessModal,
 } from "./components/modals";
 import {
   Button as BaseButton,
@@ -61,7 +62,12 @@ const Button = styled(BaseButton.Warning)`
 
 const MenuWrapper = styled.div``;
 
-const modalTypes = { DETAILS: "DETAILS", CONFIRM: "CONFIRM", NOTE: "NOTE" };
+const modalTypes = {
+  DETAILS: "DETAILS",
+  CONFIRM: "CONFIRM",
+  NOTE: "NOTE",
+  SUCCESS: "SUCCESS",
+};
 
 const Menu = ({ history }) => {
   const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
@@ -179,18 +185,13 @@ const Menu = ({ history }) => {
   );
 
   const createNewOrder = useCallback(async () => {
-    console.log(orderListItems);
-    console.log(authTableNum);
-    console.log({
-      tableNum: authTableNum,
-      orderedProducts: [...orderListItems],
-    });
     try {
       const res = await axios.post("/orders", {
         tableNum: authTableNum,
+        isActive: true,
         orderedProducts: [...orderListItems],
       });
-      setOrderListItems([]);
+      setWhichModalShown(modalTypes.SUCCESS);
       console.log(res.data);
     } catch (error) {
       console.log(error);
@@ -226,6 +227,10 @@ const Menu = ({ history }) => {
           onHide={() => setWhichModalShown(null)}
           onConfirm={() => createNewOrder()}
         />
+      )}
+
+      {whichModalShown === modalTypes.SUCCESS && (
+        <SuccessModal onHide={() => history.goBack()} />
       )}
 
       <Screen>

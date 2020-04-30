@@ -19,21 +19,23 @@ Text.Empty = styled(Text)`
   margin: 10px 0px 10px 0px;
 `;
 
-const ItemsList = ({ items, onAddNote, onRemoveItem }) => {
+const ItemsList = ({ items, editMode, onAddNote, onRemoveItem }) => {
   const isItemsEmpty = !items || items.length === 0;
-
   return (
     <ListWrapper>
       {!isItemsEmpty ? (
-        items.map(({ listItemId, note, Product }) => {
+        items.map(({ listItemId, id, note, Product }) => {
           return (
             <OrderItem
               key={listItemId}
               listItemId={listItemId}
               title={Product.name}
               note={note}
+              editMode={editMode}
               price={Product.price}
-              onAddNote={() => onAddNote(listItemId)}
+              onAddNote={() => {
+                onAddNote(listItemId ? listItemId : id);
+              }}
               onRemoveItem={onRemoveItem}
             />
           );

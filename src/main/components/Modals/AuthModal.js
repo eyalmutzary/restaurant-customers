@@ -6,7 +6,12 @@ import React, {
   useRef,
 } from "react";
 import styled from "styled-components";
-import { Modal, Input, Button, LoadingSpinner } from "../../../shared/components";
+import {
+  Modal,
+  Input,
+  Button,
+  LoadingSpinner,
+} from "../../../shared/components";
 import { AuthTableNumContext } from "../../../app";
 import axios from "axios";
 
@@ -24,8 +29,9 @@ const TableNumWrapper = styled.div`
 `;
 
 const TableNum = styled.div`
-  background-color: ${({ theme }) => theme.colors.red};
+  background-color: ${({ theme }) => theme.colors.black};
   color: ${({ theme }) => theme.colors.white};
+  border-bottom: solid 2px ${({ theme }) => theme.colors.red};
   border-radius: 3px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -36,8 +42,8 @@ const TableNum = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.colors.bordeaux};
-    transition: ease-in 0.2s;
+    background-color: ${({ theme }) => theme.colors.red};
+    transition: ease-out 0.2s;
   }
 `;
 
