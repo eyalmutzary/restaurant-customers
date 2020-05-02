@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Modal, Icon as BaseIcon } from "../../../shared/components";
+import { default as BaseIcon } from "../Icon";
+import Modal from "./Modal";
 
 const Description = styled.div`
   padding: 20px;
@@ -16,9 +17,9 @@ const Icon = styled(BaseIcon)`
   text-align: center;
 `;
 
-const Success = ({ onHide, description }) => {
+const Success = ({ title, onHide, description }) => {
   return (
-    <Modal title="Order is on the Way!" onHide={onHide}>
+    <Modal title={title} onHide={onHide}>
       <Icon name="check" />
       <Description>{description}</Description>
     </Modal>

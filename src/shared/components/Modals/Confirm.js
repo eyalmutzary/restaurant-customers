@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { Modal } from "../../../shared/components";
+import Modal from "./Modal";
 
 const Description = styled.div`
   padding: 20px;

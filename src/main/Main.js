@@ -3,15 +3,12 @@ import styled from "styled-components";
 import axios from "axios";
 import { backgroundImage } from "../shared/assets/images";
 import { AuthTableNumContext } from "../app";
-import {
-  AuthModal,
-  ErrorModal,
-  TableDetails as TableDetailsModal,
-} from "./components";
+import { AuthModal, TableDetails as TableDetailsModal } from "./components";
 import {
   Button as BaseButton,
   Screen as BaseScreen,
   Icon,
+  ErrorModal,
 } from "../shared/components";
 
 const Screen = styled(BaseScreen)`

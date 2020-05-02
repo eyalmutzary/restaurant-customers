@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import styled from "styled-components";
-import { Modal, TextArea } from "../../../shared/components";
+import { Modal, TextArea } from "..";
 
 const Note = ({ onHide, onConfirm, value }) => {
   const [note, setNote] = useState(value);

@@ -1,1 +1,1 @@
-export { AuthModal, ErrorModal, TableDetails } from "./Modals";
+export { AuthModal, TableDetails } from "./Modals";

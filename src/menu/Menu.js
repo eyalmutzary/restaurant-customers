@@ -9,12 +9,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { AuthTableNumContext } from "../app";
-import {
-  Note as NoteModal,
-  Details as DetailsModal,
-  Confirm as ConfirmModal,
-  Success as SuccessModal,
-} from "./components/modals";
+import { Details as DetailsModal } from "./components/modals";
 import {
   Button as BaseButton,
   Card,
@@ -23,6 +18,9 @@ import {
   OrderList,
   Screen,
   LoadingSpinner,
+  Confirm as ConfirmModal,
+  Success as SuccessModal,
+  Note as NoteModal,
 } from "../shared/components";
 
 const ContentWrapper = styled.div`
@@ -230,7 +228,10 @@ const Menu = ({ history }) => {
       )}
 
       {whichModalShown === modalTypes.SUCCESS && (
-        <SuccessModal onHide={() => history.goBack()} />
+        <SuccessModal
+          title="Order is on the way!"
+          onHide={() => history.goBack()}
+        />
       )}
 
       <Screen>
