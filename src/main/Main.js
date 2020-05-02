@@ -139,6 +139,7 @@ const Main = ({ history }) => {
         <Subtitle>Probably the best serving app in the world.</Subtitle>
       </LogoWrapper>
       <AuthWrapper>
+        <Icon name="sync-alt" onClick={() => checkTableAvailable()} />
         <AuthText>Table Number: {authTableNum}</AuthText>
         <Icon
           name="sign-out-alt"

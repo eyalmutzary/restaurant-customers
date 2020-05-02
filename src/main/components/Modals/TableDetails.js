@@ -2,7 +2,6 @@ import React, { useCallback, useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import {
   Modal,
-  OrderList,
   ItemsList,
   LoadingSpinner,
 } from "../../../shared/components";
@@ -13,7 +12,7 @@ import { sumBy } from "lodash";
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 60px;
+  padding: 40px;
   flex-direction: column;
   flex: 1;
 `;
@@ -85,8 +84,6 @@ const TableDetails = ({ onHide, description }) => {
           </OrderWrapper>
         )}
       </ContentWrapper>
-
-      {/* <OrderList items={orderedItems} editMode={false} /> */}
     </Modal>
   );
 };
