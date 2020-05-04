@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { backgroundImage } from "../shared/assets/images";
+import { AuthTableNumContext } from "../app";
+import { AuthModal, TableDetails as TableDetailsModal } from "./components";
 import {
   Button as BaseButton,
   Screen as BaseScreen,
+  Icon,
+  ErrorModal,
 } from "../shared/components";
 
 const Screen = styled(BaseScreen)`
-  justify-content: space-around;
-  padding-top: 100px;
+  flex-direction: column;
+  align-items: flex-end;
   background-image: url(${backgroundImage});
   background-size: cover;
 `;
@@ -18,20 +23,22 @@ const LogoWrapper = styled.div`
   flex-direction: column;
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
+  margin: 20px;
 `;
 
 const Title = styled.div`
-  font-size: 100px;
+  font-size: 50px;
 `;
 
 const Subtitle = styled.div`
-  font-size: 25px;
+  font-size: 14px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-right: 50px;
+  padding: 80px;
+  flex: 1;
 `;
 
 const BorderedButton = styled(BaseButton.Main)`
@@ -40,21 +47,104 @@ const BorderedButton = styled(BaseButton.Main)`
   height: 55px;
 `;
 
-const Main = ({ history }) => (
-  <Screen>
-    <LogoWrapper>
-      <Title>Well-Served</Title>
-      <Subtitle>Probably the best serving app in the world.</Subtitle>
-    </LogoWrapper>
-    <ButtonWrapper>
-      <BorderedButton onClick={() => history.push("/menu")}>
-        Menu
-      </BorderedButton>
-      <BorderedButton>My Table</BorderedButton>
-      <BorderedButton>Call a Waiter</BorderedButton>
-      <BorderedButton>Check, Please</BorderedButton>
-    </ButtonWrapper>
-  </Screen>
-);
+const AuthWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const AuthText = styled.div`
+  padding: 0px 10px 0px 10px;
+`;
+
+const modalTypes = {
+  AUTH: "AUTH",
+  ERROR: "ERROR",
+  TABLE_DETAILS: "TABLE_DETAILS",
+};
+
+const Main = ({ history }) => {
+  const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
+  const [whichModalShown, setWhichModalShown] = useState();
+  const [isTableAvailable, setIsTableAvailable] = useState(false);
+
+  const checkTableAvailable = useCallback(async () => {
+    try {
+      const res = await axios.get("/customerTables?tableNum=" + authTableNum);
+      if (res.data.CustomerTableStatus.status !== "closed") {
+        setIsTableAvailable(true);
+      } else {
+        console.log("Table closed");
+        console.log(res.data.CustomerTableStatus.status);
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [authTableNum]);
+
+  useEffect(() => {
+    checkTableAvailable();
+  }, [checkTableAvailable]);
+
+  return (
+    <Screen>
+      {whichModalShown === modalTypes.AUTH && (
+        <AuthModal onHide={() => setWhichModalShown(null)} />
+      )}
+
+      {whichModalShown === modalTypes.ERROR && (
+        <ErrorModal
+          description="Your table is not open. Please call the waiter."
+          onHide={() => setWhichModalShown(null)}
+        />
+      )}
+
+      {whichModalShown === modalTypes.TABLE_DETAILS && (
+        <TableDetailsModal onHide={() => setWhichModalShown(null)} />
+      )}
+
+      <ButtonWrapper>
+        <BorderedButton
+          disabled={!isTableAvailable}
+          onClick={() =>
+            isTableAvailable
+              ? history.push("/menu")
+              : setWhichModalShown(modalTypes.ERROR)
+          }
+        >
+          Menu
+        </BorderedButton>
+        <BorderedButton
+          disabled={!isTableAvailable}
+          onClick={() => setWhichModalShown(modalTypes.TABLE_DETAILS)}
+        >
+          My Table
+        </BorderedButton>
+        <BorderedButton disabled={!isTableAvailable}>
+          Call a Waiter
+        </BorderedButton>
+        <BorderedButton disabled={!isTableAvailable}>
+          Check, Please
+        </BorderedButton>
+      </ButtonWrapper>
+      <LogoWrapper>
+        <Title>Well-Served</Title>
+        <Subtitle>Probably the best serving app in the world.</Subtitle>
+      </LogoWrapper>
+      <AuthWrapper>
+        <Icon name="sync-alt" onClick={() => checkTableAvailable()} />
+        <AuthText>Table Number: {authTableNum}</AuthText>
+        <Icon
+          name="sign-out-alt"
+          onClick={() => setWhichModalShown(modalTypes.AUTH)}
+        />
+      </AuthWrapper>
+    </Screen>
+  );
+};
 
 export default Main;

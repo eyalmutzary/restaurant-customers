@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import { Modal } from "../../../shared/components";
+import Modal from "./Modal";
 
 const Description = styled.div`
   padding: 20px;
@@ -9,24 +9,23 @@ const Description = styled.div`
   letter-spacing: 2px;
 `;
 
-const Confirm = ({ onHide, description }) => {
+const Confirm = ({ onHide, onConfirm, description }) => {
   const setOfButtons = useMemo(
     () => [
       { text: "Close", onClick: onHide },
       {
         text: "Confirm",
-        onClick: onHide,
+        onClick: () => {
+          onConfirm();
+          onHide();
+        },
       },
     ],
-    [onHide]
+    [onHide, onConfirm]
   );
 
   return (
-    <Modal
-      title="Please Confirm"
-      onHide={onHide}
-      buttons={setOfButtons}
-    >
+    <Modal title="Please Confirm" onHide={onHide} buttons={setOfButtons}>
       <Description>{description}</Description>
     </Modal>
   );

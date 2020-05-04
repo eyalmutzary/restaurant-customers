@@ -9,7 +9,7 @@ const ItemWrapper = styled.div`
   justify-content: space-between;
   font-size: 16px;
   font-weight: 500;
-  margin: 10px 0px 10px 0px;
+  margin: 15px 0px 15px 0px;
 `;
 
 const IconsWrapper = styled.div`
@@ -43,12 +43,6 @@ const ToolbarWrapper = styled.div`
 
 const TopIcon = styled(BaseIcon)`
   margin: 5px 15px 0px 10px;
-
-  &:hover {
-    cursor: pointer;
-    color: ${({ theme }) => theme.colors.red};
-    transition: 0.4s;
-  }
 `;
 
 const NoteIcon = styled(BaseIcon)`
@@ -70,6 +64,7 @@ const OrderItem = ({
   price,
   onAddNote,
   onRemoveItem,
+  editMode = true,
 }) => {
   return (
     <ItemWrapper>
@@ -77,18 +72,20 @@ const OrderItem = ({
         <Title>{title}</Title>
         <RightSideWrapper>
           <Price>{price.toFixed(2)}$</Price>
-          <IconsWrapper>
-            <TopIcon name="edit" onClick={() => onAddNote()}></TopIcon>
-            <TopIcon
-              name="times"
-              onClick={() => onRemoveItem(listItemId)}
-            ></TopIcon>
-          </IconsWrapper>
+          {editMode && (
+            <IconsWrapper>
+              <TopIcon name="edit" onClick={() => onAddNote()}></TopIcon>
+              <TopIcon
+                name="times"
+                onClick={() => onRemoveItem(listItemId)}
+              ></TopIcon>
+            </IconsWrapper>
+          )}
         </RightSideWrapper>
       </ToolbarWrapper>
       {note && (
         <NoteWrapper>
-          <NoteIcon name="star-of-life"></NoteIcon>
+          <NoteIcon name="star-of-life" hover={false}></NoteIcon>
           <Note>{note}</Note>
         </NoteWrapper>
       )}

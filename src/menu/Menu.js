@@ -1,12 +1,15 @@
-import React, { useState, useCallback } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useContext,
+} from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import {
-  Note as NoteModal,
-  Details as DetailsModal,
-  Confirm as ConfirmModal,
-} from "./components/modals";
-
+import { AuthTableNumContext } from "../app";
+import { Details as DetailsModal } from "./components/modals";
 import {
   Button as BaseButton,
   Card,
@@ -14,8 +17,12 @@ import {
   Sidebar,
   OrderList,
   Screen,
+  LoadingSpinner,
+  Confirm as ConfirmModal,
+  Success as SuccessModal,
+  Note as NoteModal,
 } from "../shared/components";
-import { foodCards } from "../shared/constants";
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,13 +60,83 @@ const Button = styled(BaseButton.Warning)`
 
 const MenuWrapper = styled.div``;
 
-const modalTypes = { DETAILS: "DETAILS", CONFIRM: "CONFIRM", NOTE: "NOTE" };
+const modalTypes = {
+  DETAILS: "DETAILS",
+  CONFIRM: "CONFIRM",
+  NOTE: "NOTE",
+  SUCCESS: "SUCCESS",
+};
 
-const Menu = () => {
+const Menu = ({ history }) => {
+  const [authTableNum, setAuthTableNum] = useContext(AuthTableNumContext);
   const [whichModalShown, setWhichModalShown] = useState();
   const [selectedCard, setSelectedCard] = useState();
   const [selectedOrderItemId, setSelectedOrderItemId] = useState();
   const [orderListItems, setOrderListItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState();
+  const [selectedCategory, setSelectedCategory] = useState("hamburgers");
+
+  const sidebarButtons = useMemo(
+    () => ({
+      top: [
+        {
+          name: "arrow-left",
+          onClick: () => history.goBack(),
+        },
+      ],
+      center: [
+        {
+          name: "hamburger",
+          onClick: () => setSelectedCategory("hamburgers"),
+        },
+        {
+          name: "fish",
+          onClick: () => setSelectedCategory("fish"),
+        },
+        {
+          name: "pizza-slice",
+          onClick: () => setSelectedCategory("pizza"),
+        },
+        {
+          name: "seedling",
+          onClick: () => setSelectedCategory("salads"),
+        },
+        {
+          name: "wine-glass-alt",
+          onClick: () => setSelectedCategory("beverages"),
+        },
+      ],
+      bottom: [
+        {
+          name: "ice-cream",
+          onClick: () => setSelectedCategory("desserts"),
+        },
+        {
+          name: "mug-hot",
+          onClick: () => setSelectedCategory("hot-drinks"),
+        },
+      ],
+    }),
+    [history]
+  );
+
+  const fetchProducts = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get("/products");
+      setProducts(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handleCardInfoClick = useCallback((cardInfo) => {
     setWhichModalShown(modalTypes.DETAILS);
@@ -67,15 +144,14 @@ const Menu = () => {
   }, []);
 
   const handleAddItemClick = useCallback(
-    ({ productId, title, price }) => {
+    ({ productId, name, price }) => {
       const listItemId = uuidv4();
       setOrderListItems([
         ...orderListItems,
         {
           productId,
           listItemId: listItemId,
-          title,
-          price: Number(price),
+          Product: { name: name, price: Number(price) },
           note: "",
         },
       ]);
@@ -106,6 +182,20 @@ const Menu = () => {
     [selectedOrderItemId, orderListItems]
   );
 
+  const createNewOrder = useCallback(async () => {
+    try {
+      const res = await axios.post("/orders", {
+        tableNum: authTableNum,
+        isActive: true,
+        orderedProducts: [...orderListItems],
+      });
+      setWhichModalShown(modalTypes.SUCCESS);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [orderListItems, authTableNum]);
+
   return (
     <MenuWrapper>
       {whichModalShown === modalTypes.DETAILS && (
@@ -133,23 +223,40 @@ const Menu = () => {
         <ConfirmModal
           description="Are you sure you want to send the order?"
           onHide={() => setWhichModalShown(null)}
+          onConfirm={() => createNewOrder()}
+        />
+      )}
+
+      {whichModalShown === modalTypes.SUCCESS && (
+        <SuccessModal
+          title="Order is on the way!"
+          onHide={() => history.goBack()}
         />
       )}
 
       <Screen>
-        <Sidebar />
+        <Sidebar
+          top={sidebarButtons.top}
+          center={sidebarButtons.center}
+          bottom={sidebarButtons.bottom}
+        />
         <ContentWrapper>
-          <Title>Hamburgers</Title>
+          <Title>{selectedCategory}</Title>
+          {isLoading && <LoadingSpinner />}
+
           <CardsWrapper>
-            {foodCards.map(({ productId, ...cardProps }) => (
-              <Card
-                key={productId}
-                productId={productId}
-                onInfoClicked={handleCardInfoClick}
-                onAddClicked={handleAddItemClick}
-                {...cardProps}
-              />
-            ))}
+            {products &&
+              products.map(({ id, Category, inStock, ...cardProps }) => {
+                return selectedCategory === Category.name && inStock ? (
+                  <Card
+                    key={id}
+                    productId={id}
+                    onInfoClicked={handleCardInfoClick}
+                    onAddClicked={handleAddItemClick}
+                    {...cardProps}
+                  />
+                ) : null;
+              })}
           </CardsWrapper>
         </ContentWrapper>
         <ListWrapper>
@@ -162,7 +269,7 @@ const Menu = () => {
             onRemoveItem={(listItemId) => handleRemoveItem(listItemId)}
           ></OrderList>
           <Button
-            disabled={orderListItems.length == 0}
+            disabled={orderListItems.length === 0 || !authTableNum}
             onClick={() => setWhichModalShown(modalTypes.CONFIRM)}
           >
             Take an Order <Icon name={"angle-double-right"} />
